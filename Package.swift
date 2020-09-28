@@ -61,7 +61,19 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "KExtensions",
-            dependencies: []),
+            dependencies: ["ArrayExtension",
+                           "ColorExtension",
+                           "DateExtension",
+                           "DoubleExtension",
+                           "FontExtension",
+                           "ImageExtension",
+                           "LabelExtension",
+                           "LocationExtension",
+                           "StringExtension",
+                           "TableViewExtension",
+                           "TextFieldExtension",
+                           "UIViewExtension",
+                           "UIViewControllerExtension"]),
         .target(
             name: "ArrayExtension",
             dependencies: []),
