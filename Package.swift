@@ -10,7 +10,20 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "KExtensions",
-            targets: ["KExtensions"]),
+            targets: ["KExtensions",
+                      "ArrayExtension",
+                      "ColorExtension",
+                      "DateExtension",
+                      "DoubleExtension",
+                      "FontExtension",
+                      "ImageExtension",
+                      "LabelExtension",
+                      "LocationExtension",
+                      "StringExtension",
+                      "TableViewExtension",
+                      "TextFieldExtension",
+                      "UIViewExtension",
+                      "UIViewControllerExtension"]),
         .library(
             name: "ArrayExtension",
             targets: ["ArrayExtension"]),
@@ -61,19 +74,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "KExtensions",
-            dependencies: ["ArrayExtension",
-                           "ColorExtension",
-                           "DateExtension",
-                           "DoubleExtension",
-                           "FontExtension",
-                           "ImageExtension",
-                           "LabelExtension",
-                           "LocationExtension",
-                           "StringExtension",
-                           "TableViewExtension",
-                           "TextFieldExtension",
-                           "UIViewExtension",
-                           "UIViewControllerExtension"]),
+            dependencies: []),
         .target(
             name: "ArrayExtension",
             dependencies: []),

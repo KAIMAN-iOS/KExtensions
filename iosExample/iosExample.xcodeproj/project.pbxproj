@@ -3,24 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C65FA5572521DFEE003CF74B /* DateExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA5562521DFEE003CF74B /* DateExtension */; };
-		C65FA5592521DFEE003CF74B /* FontExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA5582521DFEE003CF74B /* FontExtension */; };
-		C65FA55B2521DFEE003CF74B /* TableViewExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA55A2521DFEE003CF74B /* TableViewExtension */; };
-		C65FA55D2521DFEE003CF74B /* StringExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA55C2521DFEE003CF74B /* StringExtension */; };
-		C65FA55F2521DFEE003CF74B /* DoubleExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA55E2521DFEE003CF74B /* DoubleExtension */; };
-		C65FA5612521DFEE003CF74B /* ImageExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA5602521DFEE003CF74B /* ImageExtension */; };
-		C65FA5632521DFEE003CF74B /* KExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA5622521DFEE003CF74B /* KExtensions */; };
-		C65FA5652521DFEE003CF74B /* LocationExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA5642521DFEE003CF74B /* LocationExtension */; };
-		C65FA5672521DFEE003CF74B /* ColorExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA5662521DFEE003CF74B /* ColorExtension */; };
-		C65FA5692521DFEE003CF74B /* ArrayExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA5682521DFEE003CF74B /* ArrayExtension */; };
-		C65FA56B2521DFEE003CF74B /* TextFieldExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA56A2521DFEE003CF74B /* TextFieldExtension */; };
-		C65FA56D2521DFEE003CF74B /* UIViewControllerExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA56C2521DFEE003CF74B /* UIViewControllerExtension */; };
-		C65FA56F2521DFEE003CF74B /* UIViewExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA56E2521DFEE003CF74B /* UIViewExtension */; };
-		C65FA5712521DFEE003CF74B /* LabelExtension in Frameworks */ = {isa = PBXBuildFile; productRef = C65FA5702521DFEE003CF74B /* LabelExtension */; };
 		C6A852772521D85B00AE42EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A852762521D85B00AE42EF /* AppDelegate.swift */; };
 		C6A852792521D85B00AE42EF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A852782521D85B00AE42EF /* SceneDelegate.swift */; };
 		C6A8527B2521D85B00AE42EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A8527A2521D85B00AE42EF /* ViewController.swift */; };
@@ -64,20 +50,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C65FA5672521DFEE003CF74B /* ColorExtension in Frameworks */,
-				C65FA56B2521DFEE003CF74B /* TextFieldExtension in Frameworks */,
-				C65FA55B2521DFEE003CF74B /* TableViewExtension in Frameworks */,
-				C65FA56D2521DFEE003CF74B /* UIViewControllerExtension in Frameworks */,
-				C65FA5572521DFEE003CF74B /* DateExtension in Frameworks */,
-				C65FA5612521DFEE003CF74B /* ImageExtension in Frameworks */,
-				C65FA5592521DFEE003CF74B /* FontExtension in Frameworks */,
-				C65FA5632521DFEE003CF74B /* KExtensions in Frameworks */,
-				C65FA5692521DFEE003CF74B /* ArrayExtension in Frameworks */,
-				C65FA5712521DFEE003CF74B /* LabelExtension in Frameworks */,
-				C65FA55D2521DFEE003CF74B /* StringExtension in Frameworks */,
-				C65FA55F2521DFEE003CF74B /* DoubleExtension in Frameworks */,
-				C65FA56F2521DFEE003CF74B /* UIViewExtension in Frameworks */,
-				C65FA5652521DFEE003CF74B /* LocationExtension in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,20 +119,6 @@
 			);
 			name = iosExample;
 			packageProductDependencies = (
-				C65FA5562521DFEE003CF74B /* DateExtension */,
-				C65FA5582521DFEE003CF74B /* FontExtension */,
-				C65FA55A2521DFEE003CF74B /* TableViewExtension */,
-				C65FA55C2521DFEE003CF74B /* StringExtension */,
-				C65FA55E2521DFEE003CF74B /* DoubleExtension */,
-				C65FA5602521DFEE003CF74B /* ImageExtension */,
-				C65FA5622521DFEE003CF74B /* KExtensions */,
-				C65FA5642521DFEE003CF74B /* LocationExtension */,
-				C65FA5662521DFEE003CF74B /* ColorExtension */,
-				C65FA5682521DFEE003CF74B /* ArrayExtension */,
-				C65FA56A2521DFEE003CF74B /* TextFieldExtension */,
-				C65FA56C2521DFEE003CF74B /* UIViewControllerExtension */,
-				C65FA56E2521DFEE003CF74B /* UIViewExtension */,
-				C65FA5702521DFEE003CF74B /* LabelExtension */,
 			);
 			productName = iosExample;
 			productReference = C6A852732521D85B00AE42EF /* iosExample.app */;
@@ -234,7 +192,6 @@
 			);
 			mainGroup = C6A8526A2521D85B00AE42EF;
 			packageReferences = (
-				C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */,
 			);
 			productRefGroup = C6A852742521D85B00AE42EF /* Products */;
 			projectDirPath = "";
@@ -612,90 +569,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jerometonnelier/KExtensions.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.2;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		C65FA5562521DFEE003CF74B /* DateExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = DateExtension;
-		};
-		C65FA5582521DFEE003CF74B /* FontExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = FontExtension;
-		};
-		C65FA55A2521DFEE003CF74B /* TableViewExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = TableViewExtension;
-		};
-		C65FA55C2521DFEE003CF74B /* StringExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = StringExtension;
-		};
-		C65FA55E2521DFEE003CF74B /* DoubleExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = DoubleExtension;
-		};
-		C65FA5602521DFEE003CF74B /* ImageExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = ImageExtension;
-		};
-		C65FA5622521DFEE003CF74B /* KExtensions */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = KExtensions;
-		};
-		C65FA5642521DFEE003CF74B /* LocationExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = LocationExtension;
-		};
-		C65FA5662521DFEE003CF74B /* ColorExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = ColorExtension;
-		};
-		C65FA5682521DFEE003CF74B /* ArrayExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = ArrayExtension;
-		};
-		C65FA56A2521DFEE003CF74B /* TextFieldExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = TextFieldExtension;
-		};
-		C65FA56C2521DFEE003CF74B /* UIViewControllerExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = UIViewControllerExtension;
-		};
-		C65FA56E2521DFEE003CF74B /* UIViewExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = UIViewExtension;
-		};
-		C65FA5702521DFEE003CF74B /* LabelExtension */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C65FA5552521DFEE003CF74B /* XCRemoteSwiftPackageReference "KExtensions" */;
-			productName = LabelExtension;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C6A8526B2521D85B00AE42EF /* Project object */;
 }
