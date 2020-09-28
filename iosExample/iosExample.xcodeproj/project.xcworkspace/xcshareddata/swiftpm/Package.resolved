@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "KExtensions",
+        "repositoryURL": "/Users/gg/Devs/SPM/KExtensions",
+        "state": {
+          "branch": null,
+          "revision": "71759534d1fcb8b1bc8afe428c89a35db4d2e0bb",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "NSAttributedStringBuilder",
+        "repositoryURL": "https://github.com/ethanhuang13/NSAttributedStringBuilder",
+        "state": {
+          "branch": null,
+          "revision": "4a3b02b8b4baf531490e1ddae8ed4a667bdb12b5",
+          "version": "0.3.3"
+        }
+      },
+      {
+        "package": "SnapKit",
+        "repositoryURL": "https://github.com/SnapKit/SnapKit",
+        "state": {
+          "branch": null,
+          "revision": "d458564516e5676af9c70b4f4b2a9178294f1bc6",
+          "version": "5.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

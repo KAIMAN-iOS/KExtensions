@@ -12,44 +12,44 @@ let package = Package(
             name: "KExtensions",
             targets: ["KExtensions"]),
         .library(
-            name: "Array",
-            targets: ["Array"]),
+            name: "ArrayExtension",
+            targets: ["ArrayExtension"]),
         .library(
-            name: "Color",
-            targets: ["Color"]),
+            name: "ColorExtension",
+            targets: ["ColorExtension"]),
         .library(
-            name: "Date",
-            targets: ["Date"]),
+            name: "DateExtension",
+            targets: ["DateExtension"]),
         .library(
-            name: "Double",
-            targets: ["Double"]),
+            name: "DoubleExtension",
+            targets: ["DoubleExtension"]),
         .library(
-            name: "Font",
-            targets: ["Font"]),
+            name: "FontExtension",
+            targets: ["FontExtension"]),
         .library(
-            name: "Image",
-            targets: ["Image"]),
+            name: "ImageExtension",
+            targets: ["ImageExtension"]),
         .library(
-            name: "Label",
-            targets: ["Label"]),
+            name: "LabelExtension",
+            targets: ["LabelExtension"]),
         .library(
-            name: "Location",
-            targets: ["Location"]),
+            name: "LocationExtension",
+            targets: ["LocationExtension"]),
         .library(
-            name: "String",
-            targets: ["String"]),
+            name: "StringExtension",
+            targets: ["StringExtension"]),
         .library(
-            name: "TableView",
-            targets: ["TableView"]),
+            name: "TableViewExtension",
+            targets: ["TableViewExtension"]),
         .library(
-            name: "TextField",
-            targets: ["TextField"]),
+            name: "TextFieldExtension",
+            targets: ["TextFieldExtension"]),
         .library(
-            name: "UIView",
-            targets: ["UIView"]),
+            name: "UIViewExtension",
+            targets: ["UIViewExtension"]),
         .library(
-            name: "UIViewController",
-            targets: ["UIViewController"]),
+            name: "UIViewControllerExtension",
+            targets: ["UIViewControllerExtension"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -63,44 +63,44 @@ let package = Package(
             name: "KExtensions",
             dependencies: []),
         .target(
-            name: "Array",
+            name: "ArrayExtension",
             dependencies: []),
-    .target(
-        name: "Color",
-        dependencies: []),
-    .target(
-        name: "Date",
-        dependencies: []),
-    .target(
-        name: "Double",
-        dependencies: []),
-    .target(
-        name: "Font",
-        dependencies: []),
-    .target(
-        name: "Image",
-        dependencies: []),
-    .target(
-        name: "Label",
-        dependencies: ["NSAttributedStringBuilder", "String"]),
-    .target(
-        name: "Location",
-        dependencies: []),
-    .target(
-        name: "String",
-        dependencies: ["NSAttributedStringBuilder", "Font"]),
-    .target(
-        name: "TableView",
-        dependencies: ["SnapKit"]),
-    .target(
-        name: "TextField",
-        dependencies: ["SnapKit", "String", "Font"]),
-    .target(
-        name: "UIView",
-        dependencies: ["SnapKit"]),
-    .target(
-        name: "UIViewController",
-        dependencies: []),
+        .target(
+            name: "ColorExtension",
+            dependencies: []),
+        .target(
+            name: "DateExtension",
+            dependencies: []),
+        .target(
+            name: "DoubleExtension",
+            dependencies: []),
+        .target(
+            name: "FontExtension",
+            dependencies: []),
+        .target(
+            name: "ImageExtension",
+            dependencies: []),
+        .target(
+            name: "LabelExtension",
+            dependencies: ["NSAttributedStringBuilder", "StringExtension"]),
+        .target(
+            name: "LocationExtension",
+            dependencies: []),
+        .target(
+            name: "StringExtension",
+            dependencies: ["NSAttributedStringBuilder", "FontExtension"]),
+        .target(
+            name: "TableViewExtension",
+            dependencies: ["SnapKit"]),
+        .target(
+            name: "TextFieldExtension",
+            dependencies: ["SnapKit", "StringExtension", "FontExtension"]),
+        .target(
+            name: "UIViewExtension",
+            dependencies: ["SnapKit"]),
+        .target(
+            name: "UIViewControllerExtension",
+            dependencies: []),
         .testTarget(
             name: "KExtensionsTests",
             dependencies: ["KExtensions"]),
