@@ -9,8 +9,8 @@
 import UIKit
 import Foundation
 import SnapKit
-import String
-import Font
+import StringExtension
+import FontExtension
 
 @objc public protocol TextFieldNavigationDelegate: class {
     func nextTextField()
@@ -52,7 +52,6 @@ public extension UILabel {
 }
 
 public class InputView: UIView {
-    
     open var primaryColor: UIColor = .red
     public enum KeyboardControl {
         case navigation(TextFieldNavigationDelegate), close
@@ -68,12 +67,12 @@ public class InputView: UIView {
         backgroundColor = .white
     }
     
-    func add(controls: [KeyboardControl] = [.close], target: UIView) {
+    func add(controls: [KeyboardControl] = [.close], target: UIView, buttonFont: Fontable) {
         for control in controls {
             switch control {
             case .close:
                 let closeButton = UIButton()
-                closeButton.setAttributedTitle("close".local().asAttributedString(for: FontType.button, textColor: primaryColor), for: .normal)
+                closeButton.setAttributedTitle("close".local().asAttributedString(for: buttonFont, textColor: primaryColor), for: .normal)
                 addSubview(closeButton)
                 closeButton.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()
@@ -83,7 +82,7 @@ public class InputView: UIView {
                 
             case .navigation(let delegate):
                 let previousButton = UIButton()
-                previousButton.setAttributedTitle("△".local().asAttributedString(for: FontType.custom(.title1, traits: [.traitBold]), textColor: primaryColor), for: .normal)
+                previousButton.setAttributedTitle("△".local().asAttributedString(for: buttonFont, textColor: primaryColor), for: .normal)
                 addSubview(previousButton)
                 previousButton.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()
@@ -93,7 +92,7 @@ public class InputView: UIView {
                 previousButton.addTarget(delegate, action: #selector(TextFieldNavigationDelegate.previousTextField), for: .touchUpInside)
                 
                 let nextButton = UIButton()
-                nextButton.setAttributedTitle("▽".local().asAttributedString(for: FontType.custom(.title1, traits: [.traitBold]), textColor: primaryColor), for: .normal)
+                nextButton.setAttributedTitle("▽".local().asAttributedString(for: buttonFont, textColor: primaryColor), for: .normal)
                 addSubview(nextButton)
                 nextButton.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()
@@ -106,21 +105,21 @@ public class InputView: UIView {
 }
 
 public extension UITextField {
-    func addKeyboardControlView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close])  {
-        inputAccessoryView = self.inputView(with: backgroundColor, target: target, controls: controls)
+    func addKeyboardControlView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close], buttonFont: Fontable)  {
+        inputAccessoryView = self.inputView(with: backgroundColor, target: target, controls: controls, buttonFont: buttonFont)
     }
 }
 
 public extension UITextView {
-    func addKeyboardControlView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close])  {
-        inputAccessoryView = self.inputView(with: backgroundColor, target: target, controls: controls)
+    func addKeyboardControlView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close], buttonFont: Fontable)  {
+        inputAccessoryView = self.inputView(with: backgroundColor, target: target, controls: controls, buttonFont: buttonFont)
     }
 }
 
 public extension UIView {
-    func inputView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close]) -> InputView  {
+    func inputView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close], buttonFont: Fontable) -> InputView  {
         let view = InputView(frame: CGRect(origin: .zero, size: CGSize(width: UIApplication.shared.statusBarFrame.width, height: 40)), backgroundColor: backgroundColor)
-        view.add(controls: controls, target: target)
+        view.add(controls: controls, target: target, buttonFont: buttonFont)
         return view
     }
 }

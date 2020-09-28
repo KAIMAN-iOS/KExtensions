@@ -12,7 +12,7 @@ public protocol Fontable {
     var font: UIFont { get }
 }
 
-public enum FontType: Fontable {
+public enum FontType {
     case bigTitle
     case title
     case button
@@ -20,8 +20,6 @@ public enum FontType: Fontable {
     case `default`
     case footnote
     case custom(_: Font.TextStyle, traits:[UIFontDescriptor.SymbolicTraits]?)
-    
-    public var font: UIFont { return UIFont.systemFont(ofSize: 12) }
 }
 
 public struct Font {

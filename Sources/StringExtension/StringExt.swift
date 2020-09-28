@@ -8,14 +8,14 @@
 
 import UIKit
 import NSAttributedStringBuilder
-import Font
+import FontExtension
 
 public extension String {
     func local() -> String {
         return NSLocalizedString(self, comment: "")
     }
     
-    func asAttributedString(for style: FontType, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, underline: NSUnderlineStyle? = nil) -> NSAttributedString {
+    func asAttributedString(for style: Fontable, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, underline: NSUnderlineStyle? = nil) -> NSAttributedString {
         let attr = AText(self)
             .font(style.font.withSize(style.font.pointSize * fontScale))
             .foregroundColor(textColor)

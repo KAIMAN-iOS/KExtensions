@@ -8,8 +8,8 @@
 
 import UIKit
 import NSAttributedStringBuilder
-import String
-import Font
+import StringExtension
+import FontExtension
 
 public extension UIColor {
     static var defaultShadowColor: UIColor = UIColor.black.withAlphaComponent(0.3)
@@ -27,7 +27,7 @@ public extension NSShadow {
 }
 
 public extension UITextField {
-    func set(text: String?, for fontType: FontType, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, useShadow: Bool = false) {
+    func set(text: String?, for fontType: Fontable, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, useShadow: Bool = false) {
         guard let attr = text?.asAttributedString(for: fontType, fontScale:fontScale, textColor: textColor, backgroundColor: backgroundColor) else { return }
         if useShadow {
             attributedText = AText.init(attr.string, attributes: attr.attributes(at: 0, effectiveRange: nil)).shadow(color: UIColor.defaultShadowColor, radius: 5.0, x: 2, y: 2).attributedString
@@ -38,7 +38,7 @@ public extension UITextField {
 }
 
 public extension UILabel {
-    func set(text: String?, for fontType: FontType, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, useShadow: Bool = false) {
+    func set(text: String?, for fontType: Fontable, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, useShadow: Bool = false) {
         guard let attr = text?.asAttributedString(for: fontType, fontScale:fontScale, textColor: textColor, backgroundColor: backgroundColor) else { return }
         if useShadow {
             attributedText = AText.init(attr.string, attributes: attr.attributes(at: 0, effectiveRange: nil)).shadow(color: UIColor.defaultShadowColor, radius: 5.0, x: 2, y: 2).attributedString
