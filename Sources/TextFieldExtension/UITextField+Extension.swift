@@ -52,7 +52,7 @@ public extension UILabel {
 }
 
 public class InputView: UIView {
-    open var primaryColor: UIColor = .red
+    public static var primaryColor: UIColor = .white
     public enum KeyboardControl {
         case navigation(TextFieldNavigationDelegate), close
     }
@@ -72,7 +72,7 @@ public class InputView: UIView {
             switch control {
             case .close:
                 let closeButton = UIButton()
-                closeButton.setAttributedTitle("close".local().asAttributedString(for: buttonFont, textColor: primaryColor), for: .normal)
+                closeButton.setAttributedTitle("close".local().asAttributedString(for: buttonFont, textColor: InputView.primaryColor), for: .normal)
                 addSubview(closeButton)
                 closeButton.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()
@@ -82,7 +82,7 @@ public class InputView: UIView {
                 
             case .navigation(let delegate):
                 let previousButton = UIButton()
-                previousButton.setAttributedTitle("△".local().asAttributedString(for: buttonFont, textColor: primaryColor), for: .normal)
+                previousButton.setAttributedTitle("△".local().asAttributedString(for: buttonFont, textColor: InputView.primaryColor), for: .normal)
                 addSubview(previousButton)
                 previousButton.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()
@@ -92,7 +92,7 @@ public class InputView: UIView {
                 previousButton.addTarget(delegate, action: #selector(TextFieldNavigationDelegate.previousTextField), for: .touchUpInside)
                 
                 let nextButton = UIButton()
-                nextButton.setAttributedTitle("▽".local().asAttributedString(for: buttonFont, textColor: primaryColor), for: .normal)
+                nextButton.setAttributedTitle("▽".local().asAttributedString(for: buttonFont, textColor: InputView.primaryColor), for: .normal)
                 addSubview(nextButton)
                 nextButton.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()

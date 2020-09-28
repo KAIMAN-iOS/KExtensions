@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "KExtensions",
-        "repositoryURL": "/Users/gg/Devs/SPM/KExtensions",
+        "repositoryURL": "https://github.com/jerometonnelier/KExtensions.git",
         "state": {
           "branch": null,
-          "revision": "97a49bdb5daf5a2b88baf29e783d25acfd6dd9ea",
-          "version": "1.0.1"
+          "revision": "0ee05abe837c9003c4ddefb68e4625f7f121c3ab",
+          "version": "1.0.2"
         }
       },
       {
