@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         label.set(text: "\(Double(12).readablePrice())\n\(DateFormatter.readableDateFormatter.string(from: Date()))", for: FontType.bigTitle, textColor: UIColor.init(hexString: "#16C8C9"))
-        
+        InputView.primaryColor = .red
         textField.addKeyboardControlView(with: UIColor.init(hexString: "#16C8C9"), target: view, controls: [.close], buttonFont: FontType.button)
         
     }

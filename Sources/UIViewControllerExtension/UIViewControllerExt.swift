@@ -10,12 +10,19 @@ import UIKit
 
 extension UIViewController {
     
-    func addFeedback() {
-
+    func addSelectionFeedback() {
+        let generator = UISelectionFeedbackGenerator()
+        generator.selectionChanged()
     }
     
-    func addImpact() {
-        
+    func addNotificationFeedback() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+    }
+    
+    func addImpactFeedback() {
+        let generator = UIImpactFeedbackGenerator()
+        generator.impactOccurred()
     }
     
     static func loadFromStoryboard<T: UIViewController>(identifier: String? = nil, storyboardName: String? = nil) -> T {
