@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "KExtensions",
-        "repositoryURL": "https://github.com/jerometonnelier/KExtensions.git",
-        "state": {
-          "branch": null,
-          "revision": "87171522cdccb8c6aee00fa3a75ad6d053add94a",
-          "version": "1.0.4"
-        }
-      },
-      {
         "package": "NSAttributedStringBuilder",
         "repositoryURL": "https://github.com/ethanhuang13/NSAttributedStringBuilder",
         "state": {

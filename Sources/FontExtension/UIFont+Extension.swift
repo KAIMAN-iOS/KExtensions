@@ -22,6 +22,24 @@ public enum FontType {
     case custom(_: Font.TextStyle, traits:[UIFontDescriptor.SymbolicTraits]?)
 }
 
+extension Fontable {
+    public var font: UIFont { .systemFont(ofSize: 12.0) }
+}
+
+extension FontType: Fontable {
+    public var font: UIFont {
+        switch self {
+        case .bigTitle: return Font.style(.title1)
+        case .title: return Font.style(.title2)
+        case .button:  return Font.style(.callout)
+        case .subTitle:  return Font.style(.subheadline)
+        case .default:  return Font.style(.body)
+        case .footnote:  return Font.style(.footnote)
+        case .custom(let style, let traits):  return traits == nil ? Font.style(style) : Font.style(style).withTraits(traits: traits!)
+        }
+    }
+}
+
 public struct Font {
     
     private init() { }
