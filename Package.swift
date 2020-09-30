@@ -22,7 +22,8 @@ let package = Package(
                       "TableViewExtension",
                       "TextFieldExtension",
                       "UIViewExtension",
-                      "UIViewControllerExtension"]),
+                      "UIViewControllerExtension",
+                      "UIImageViewExtension"]),
         .library(
             name: "ArrayExtension",
             targets: ["ArrayExtension"]),
@@ -62,11 +63,13 @@ let package = Package(
         .library(
             name: "UIViewControllerExtension",
             targets: ["UIViewControllerExtension"]),
+        .library(name: "UIImageViewExtension", targets: ["UIImageViewExtension"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/ethanhuang13/NSAttributedStringBuilder", from: "0.3.0"),
         .package(url: "https://github.com/SnapKit/SnapKit", from: "5.0.0"),
+        .package(url: "https://github.com/Alamofire/AlamofireImage", from: "4.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -109,6 +112,9 @@ let package = Package(
             dependencies: ["SnapKit"]),
         .target(
             name: "UIViewControllerExtension",
-            dependencies: [])
+            dependencies: []),
+        .target(
+            name: "UIImageViewExtension",
+            dependencies: ["AlamofireImage"])
     ]
 )
