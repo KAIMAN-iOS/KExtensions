@@ -32,6 +32,12 @@ public extension String {
         guard matches.count == 1 else { return false }
         return matches[0].url?.scheme == "mailto"
     }
+    
+    func call() {
+        if let url = URL(string: "telprompt:\(self)") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
 }
 
 public extension String {

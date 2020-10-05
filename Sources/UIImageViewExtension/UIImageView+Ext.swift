@@ -7,30 +7,33 @@
 //
 
 import UIKit
-import AlamofireImage
-import SnapKit
+import Nuke
 
 extension UIImageView {
-    func downloadImage(from url: URL, placeholder: UIImage?, activityColor: UIColor = .blue) {
+    func downloadImage(from url: URL, identifier: String? = nil, placeholder: UIImage?, activityColor: UIColor = UIColor.blue) {
+        
         let activity = UIActivityIndicatorView(style: .white)
         activity.color = activityColor
         activity.startAnimating()
         addSubview(activity)
-        activity.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
+        activity.center = center
+        DataLoader.sharedUrlCache.diskCapacity = 200
+        DataLoader.sharedUrlCache.memoryCapacity = 100
         
-        af.setImage(withURL: url, cacheKey: url.absoluteString, placeholderImage: placeholder, completion:  { data in
+        Nuke.loadImage(with: url, options: ImageLoadingOptions(placeholder: placeholder), into: self, completion:  { result in
             defer {
                 activity.removeFromSuperview()
             }
-            
-            let replaceWithPlaceholder: (() -> Void) = {
-                self.image = placeholder
-            }
-            switch data.result {
-            case .success(let image): self.image = image
-            default: replaceWithPlaceholder()
+            switch result {
+            case .success: DataLoader.sharedUrlCache.cachedResponse(for: ImageRequest(url: url).urlRequest)
+                
+            default:
+                if let cache = DataLoader.sharedUrlCache.cachedResponse(for: ImageRequest(url: url).urlRequest),
+                   let image = UIImage(data: cache.data) {
+                    self.image = image
+                } else {
+                    self.image = placeholder
+                }
             }
         })
     }
