@@ -72,7 +72,7 @@ public struct Font {
         }
     }
     
-    static func style(_ style: TextStyle) -> UIFont {
+    public static func style(_ style: TextStyle) -> UIFont {
         return UIFont.preferredFont(forTextStyle: style.value)
     }
     
