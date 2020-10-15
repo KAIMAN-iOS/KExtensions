@@ -34,7 +34,8 @@ public extension String {
     }
     
     func call() {
-        if let url = URL(string: "telprompt:\(self)") {
+        let set = CharacterSet(charactersIn: "+*#0123456789")
+        if let url = URL(string: "telprompt:\(self.components(separatedBy: set.inverted).joined())") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
