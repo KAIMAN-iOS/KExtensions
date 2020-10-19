@@ -459,3 +459,21 @@ public extension UIStackView {
         }
     }
 }
+
+public extension UIView {
+    
+    enum ComponentShape {
+        case capsule
+        case rounded(value: CGFloat)
+        case square
+        
+        func applyShape(on view: UIView) {
+            view.clipsToBounds = true
+            switch self {
+            case .capsule: view.layer.cornerRadius = view.bounds.height / 2
+            case .rounded(let value): view.layer.cornerRadius = value
+            case .square: view.layer.cornerRadius = 0
+            }
+        }
+    }
+}
