@@ -467,7 +467,7 @@ public extension UIView {
         case rounded(value: CGFloat)
         case square
         
-        func applyShape(on view: UIView) {
+        public func applyShape(on view: UIView) {
             view.clipsToBounds = true
             switch self {
             case .capsule: view.layer.cornerRadius = view.bounds.height / 2
