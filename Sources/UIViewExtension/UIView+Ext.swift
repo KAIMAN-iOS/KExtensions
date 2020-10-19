@@ -245,7 +245,7 @@ public class DottedView: UIView {
 
 protocol ViewRoundable {
     var roundedCorners: Bool { get set}
-    var borderColor:UIColor? { get set}
+//    var borderColor:UIColor? { get set}
 }
 
 extension UIView: ViewRoundable {
@@ -262,24 +262,24 @@ extension UIView: ViewRoundable {
             }
         }
     }
-    
-    public var borderColor:UIColor? {
-        get {
-            if let color = layer.borderColor {
-                return UIColor(cgColor: color)
-            }
-            return nil
-        }
-        
-        set (val) {
-            layer.borderWidth = val != nil ? 2.0 : 0
-            layer.borderColor = val?.cgColor
-            setNeedsLayout()
-            //            DispatchQueue.main.async { [weak self] in
-            //                self?.setNeedsLayout()
-            //            }
-        }
-    }
+//    
+//    public var borderColor:UIColor? {
+//        get {
+//            if let color = layer.borderColor {
+//                return UIColor(cgColor: color)
+//            }
+//            return nil
+//        }
+//        
+//        set (val) {
+//            layer.borderWidth = val != nil ? 2.0 : 0
+//            layer.borderColor = val?.cgColor
+//            setNeedsLayout()
+//            //            DispatchQueue.main.async { [weak self] in
+//            //                self?.setNeedsLayout()
+//            //            }
+//        }
+//    }
     
 }
 
