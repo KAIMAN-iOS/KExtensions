@@ -349,11 +349,9 @@ public extension UIView {
         let mask = CAShapeLayer()
         mask.path = path.cgPath
         if let color = shadowColor {
-            let layer = CAShapeLayer()
-            layer.shadowColor = color.cgColor
-            layer.shadowOpacity = shadowOpacity
-            layer.shadowOffset = shadowOffset
-            layer.addSublayer(layer)
+            mask.shadowColor = color.cgColor
+            mask.shadowOpacity = shadowOpacity
+            mask.shadowOffset = shadowOffset
         }
         self.layer.mask = mask
         if useMotionEffect {
