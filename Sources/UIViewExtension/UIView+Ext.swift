@@ -292,8 +292,13 @@ public extension UIView {
      - parameter corners: Corners to round
      - parameter radius:  Radius to round to
      */
-    func round(corners: UIRectCorner, radius: CGFloat) {
-        _ = _round(corners: corners, radius: radius)
+    func round(corners: UIRectCorner,
+               radius: CGFloat,
+               shadowColor: UIColor? = nil,
+               shadowOpacity: Float = 0,
+               shadowOffset: CGSize = .zero,
+               useMotionEffect: Bool = false) {
+        _ = _round(corners: corners, radius: radius, shadowColor: shadowColor, shadowOpacity: shadowOpacity, shadowOffset: shadowOffset, useMotionEffect: useMotionEffect)
     }
     
     /**
@@ -304,8 +309,15 @@ public extension UIView {
      - parameter borderColor: The border color
      - parameter borderWidth: The border width
      */
-    func round(corners: UIRectCorner, radius: CGFloat, borderColor: UIColor, borderWidth: CGFloat) {
-        let mask = _round(corners: corners, radius: radius)
+    func round(corners: UIRectCorner,
+               radius: CGFloat,
+               borderColor: UIColor,
+               borderWidth: CGFloat,
+               shadowColor: UIColor? = nil,
+               shadowOpacity: Float = 0,
+               shadowOffset: CGSize = .zero,
+               useMotionEffect: Bool = false) {
+        let mask = _round(corners: corners, radius: radius, shadowColor: shadowColor, shadowOpacity: shadowOpacity, shadowOffset: shadowOffset, useMotionEffect: useMotionEffect)
         addBorder(mask: mask, borderColor: borderColor, borderWidth: borderWidth)
     }
     
@@ -327,11 +339,24 @@ public extension UIView {
 
 public extension UIView {
     
-    @discardableResult func _round(corners: UIRectCorner, radius: CGFloat) -> CAShapeLayer {
+    @discardableResult func _round(corners: UIRectCorner,
+                                   radius: CGFloat,
+                                   shadowColor: UIColor? = nil,
+                                   shadowOpacity: Float = 0,
+                                   shadowOffset: CGSize = .zero,
+                                   useMotionEffect: Bool = false) -> CAShapeLayer {
         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         let mask = CAShapeLayer()
         mask.path = path.cgPath
+        if let color = shadowColor {
+            mask.shadowColor = color.cgColor
+            mask.shadowOpacity = shadowOpacity
+            mask.shadowOffset = shadowOffset
+        }
         self.layer.mask = mask
+        if useMotionEffect {
+            addShadowMotion()
+        }
         return mask
     }
     
