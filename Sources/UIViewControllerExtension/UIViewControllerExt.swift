@@ -49,3 +49,31 @@ public extension UIViewController {
         }
     }
 }
+
+public extension UIViewController {
+    var hideBackButtonText: Bool   {
+        set {
+            if newValue {
+                if #available(iOS 14.0, *) {
+                    navigationItem.backButtonDisplayMode = .minimal
+                } else {
+                    navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+                }
+            } else {
+                if #available(iOS 14.0, *) {
+                    navigationItem.backButtonDisplayMode = .default
+                } else {
+                    navigationItem.backBarButtonItem = nil
+                }
+            }
+        }
+        
+        get {
+            if #available(iOS 14.0, *) {
+                return navigationItem.backButtonDisplayMode != .minimal
+            } else {
+                return navigationItem.backBarButtonItem == nil
+            }
+        }
+    }
+}

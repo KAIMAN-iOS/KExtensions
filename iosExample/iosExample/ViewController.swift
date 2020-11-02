@@ -12,6 +12,7 @@ import DoubleExtension
 import ColorExtension
 import DateExtension
 import TextFieldExtension
+import UIViewControllerExtension
 
 extension FontType: Fontable {
     public var font: UIFont {
@@ -33,7 +34,13 @@ class ViewController: UIViewController {
         label.set(text: "\(Double(12).readablePrice())\n\(DateFormatter.readableDateFormatter.string(from: Date()))", for: FontType.bigTitle, textColor: UIColor.init(hexString: "#16C8C9"))
         InputView.primaryColor = .red
         textField.addKeyboardControlView(with: UIColor.init(hexString: "#16C8C9"), target: view, controls: [.close], buttonFont: FontType.button)
-        
+        hideBackButtonText = true
+    }
+    
+    @IBAction func push(_ sender: Any) {
+        let ctrl = UIViewController()
+        ctrl.view.backgroundColor = .red
+        navigationController?.pushViewController(ctrl, animated: true)
     }
 }
 
