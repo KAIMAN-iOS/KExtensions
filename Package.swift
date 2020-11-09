@@ -63,7 +63,8 @@ let package = Package(
         .library(
             name: "UIViewControllerExtension",
             targets: ["UIViewControllerExtension"]),
-        .library(name: "UIImageViewExtension", targets: ["UIImageViewExtension"])
+        .library(name: "UIImageViewExtension",
+                 targets: ["UIImageViewExtension"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -112,7 +113,7 @@ let package = Package(
             dependencies: ["SnapKit"]),
         .target(
             name: "UIViewControllerExtension",
-            dependencies: []),
+            dependencies: ["StringExtension"]),
         .target(
             name: "UIImageViewExtension",
             dependencies: ["Nuke"])
