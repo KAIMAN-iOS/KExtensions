@@ -8,15 +8,18 @@
 
 import UIKit
 import Nuke
+import SnapKit
 
-extension UIImageView {
+public extension UIImageView {
     func downloadImage(from url: URL, identifier: String? = nil, placeholder: UIImage?, activityColor: UIColor = UIColor.blue) {
         
         let activity = UIActivityIndicatorView(style: .white)
         activity.color = activityColor
         activity.startAnimating()
         addSubview(activity)
-        activity.center = center
+        activity.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
         DataLoader.sharedUrlCache.diskCapacity = 200
         DataLoader.sharedUrlCache.memoryCapacity = 100
         

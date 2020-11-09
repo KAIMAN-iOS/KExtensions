@@ -124,3 +124,17 @@ public extension UIView {
     }
 }
 
+public extension UITextField {
+    func setInputViewDatePicker(target: Any, selector: Selector, viewColor: UIColor = UIColor.lightGray) -> UIDatePicker {
+        let screenWidth = UIScreen.main.bounds.width
+        let datePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 216))
+        self.inputView = datePicker
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        }
+        datePicker.addTarget(target, action: selector, for: .valueChanged)
+        addKeyboardControlView(with: viewColor, target: self, buttonFont: FontType.default)
+        return datePicker
+    }
+}
+

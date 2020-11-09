@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Photos
+import StringExtension
 
 public extension UIViewController {
     
@@ -46,6 +48,58 @@ public extension UIViewController {
         })
         
         shareController.completionWithItemsHandler = { (activity, success, items, error) in
+        }
+    }
+}
+
+public extension UIViewController {
+    func presentImagePickerChoice(mediaTypes: [String] = ["public.image"],
+                                  delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate,
+                                  tintColor: UIColor?) {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) == true, UIImagePickerController.isSourceTypeAvailable(.photoLibrary) == true else {
+            showImagePicker(with: UIImagePickerController.isSourceTypeAvailable(.camera) ? .camera : .photoLibrary, mediaTypes: mediaTypes, delegate: delegate)
+            return
+        }
+        
+        let actionSheet = UIAlertController(title: "Choose an image".local(), message: nil, preferredStyle: .actionSheet)
+        actionSheet.view.tintColor = tintColor
+        actionSheet.addAction(UIAlertAction(title: "From Library".local(), style: .default, handler: { [weak self] _ in
+            self?.showImagePicker(with: .photoLibrary, mediaTypes: mediaTypes, delegate: delegate)
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Take picture".local(), style: .default, handler: { [weak self] _ in
+            self?.showImagePicker(with: .camera, mediaTypes: mediaTypes, delegate: delegate)
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel".local(), style: .cancel, handler: { _ in
+//            self?.dismiss(animated: true, completion: nil)
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func showImagePicker(with type: UIImagePickerController.SourceType, mediaTypes: [String], delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate) {
+        let showPicker: () -> (Void) = { [weak self] in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                let picker = UIImagePickerController()
+                picker.sourceType = type
+                picker.mediaTypes = mediaTypes
+                picker.delegate = delegate
+                self.present(picker, animated: true, completion: nil)
+            }
+        }
+        
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({status in
+                showPicker()
+            })
+
+        case .authorized: showPicker()
+
+        default: ()
         }
     }
 }
