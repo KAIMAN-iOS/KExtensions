@@ -16,10 +16,30 @@ public extension String {
         return NSLocalizedString(self, comment: "")
     }
     
-    func asAttributedString(for style: UIFont.TextStyle, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, underline: NSUnderlineStyle? = nil) -> NSAttributedString {
-        let font = UIFont.applicationFont(forTextStyle: style)
+    func asAttributedString(for style: UIFont.TextStyle,
+                            traits: [UIFontDescriptor.SymbolicTraits]? = nil,
+                            fontScale: CGFloat = 1.0,
+                            textColor: UIColor = UIColor.black,
+                            backgroundColor: UIColor = .clear,
+                            underline: NSUnderlineStyle? = nil) -> NSAttributedString {
+        let font = traits == nil ? UIFont.applicationFont(forTextStyle: style) : UIFont.applicationFont(forTextStyle: style).withTraits(traits: traits!)
         let attr = AText(self)
             .font(font.withSize(font.pointSize * fontScale))
+            .foregroundColor(textColor)
+            .backgroundColor(backgroundColor)
+            .attributedString
+        
+        return underline != nil ? AText.init(attr.string, attributes: attr.attributes(at: 0, effectiveRange: nil)).underline(underline!).attributedString : attr
+    }
+    
+    func asAttributedString(for fontSize: CGFloat,
+                            weight: UIFont.Weight = .regular,
+                            textColor: UIColor = UIColor.black,
+                            backgroundColor: UIColor = .clear,
+                            underline: NSUnderlineStyle? = nil) -> NSAttributedString {
+        let font = UIFont.applicationFont(ofSize: fontSize, weight: weight)
+        let attr = AText(self)
+            .font(font)
             .foregroundColor(textColor)
             .backgroundColor(backgroundColor)
             .attributedString

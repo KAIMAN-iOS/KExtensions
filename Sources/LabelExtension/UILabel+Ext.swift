@@ -28,8 +28,35 @@ public extension NSShadow {
 }
 
 public extension UITextField {
-    func set(text: String?, for textStyle: UIFont.TextStyle, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, useShadow: Bool = false) {
-        guard let attr = text?.asAttributedString(for: textStyle, fontScale:fontScale, textColor: textColor, backgroundColor: backgroundColor) else { return }
+    func set(text: String?,
+             for textStyle: UIFont.TextStyle,
+             fontScale: CGFloat = 1.0,
+             traits: [UIFontDescriptor.SymbolicTraits]? = nil,
+             textColor: UIColor = UIColor.black,
+             backgroundColor: UIColor = .clear,
+             useShadow: Bool = false) {
+        guard let attr = text?.asAttributedString(for: textStyle,
+                                                  traits: traits, fontScale:fontScale,
+                                                  textColor: textColor,
+                                                  backgroundColor: backgroundColor) else { return }
+        if useShadow {
+            attributedText = AText.init(attr.string, attributes: attr.attributes(at: 0, effectiveRange: nil)).shadow(color: UIColor.defaultShadowColor, radius: 5.0, x: 2, y: 2).attributedString
+        } else {
+            attributedText = attr
+        }
+    }
+    
+    func set(text: String?,
+             for fontSize: CGFloat = UIFont.TextStyle.body.fontSize,
+             weight: UIFont.Weight = .regular,
+             traits: [UIFontDescriptor.SymbolicTraits]? = nil,
+             textColor: UIColor = UIColor.black,
+             backgroundColor: UIColor = .clear,
+             useShadow: Bool = false) {
+        guard let attr = text?.asAttributedString(for: fontSize,
+                                                  weight: weight,
+                                                  textColor: textColor,
+                                                  backgroundColor: backgroundColor) else { return }
         if useShadow {
             attributedText = AText.init(attr.string, attributes: attr.attributes(at: 0, effectiveRange: nil)).shadow(color: UIColor.defaultShadowColor, radius: 5.0, x: 2, y: 2).attributedString
         } else {
@@ -39,8 +66,35 @@ public extension UITextField {
 }
 
 public extension UILabel {
-    func set(text: String?, for textStyle: UIFont.TextStyle, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, useShadow: Bool = false) {
-        guard let attr = text?.asAttributedString(for: textStyle, fontScale:fontScale, textColor: textColor, backgroundColor: backgroundColor) else { return }
+    func set(text: String?,
+             for textStyle: UIFont.TextStyle,
+             fontScale: CGFloat = 1.0,
+             traits: [UIFontDescriptor.SymbolicTraits]? = nil,
+             textColor: UIColor = UIColor.black,
+             backgroundColor: UIColor = .clear,
+             useShadow: Bool = false) {
+        guard let attr = text?.asAttributedString(for: textStyle,
+                                                  traits: traits, fontScale:fontScale,
+                                                  textColor: textColor,
+                                                  backgroundColor: backgroundColor) else { return }
+        if useShadow {
+            attributedText = AText.init(attr.string, attributes: attr.attributes(at: 0, effectiveRange: nil)).shadow(color: UIColor.defaultShadowColor, radius: 5.0, x: 2, y: 2).attributedString
+        } else {
+            attributedText = attr
+        }
+    }
+    
+    func set(text: String?,
+             for fontSize: CGFloat = UIFont.TextStyle.body.fontSize,
+             weight: UIFont.Weight = .regular,
+             traits: [UIFontDescriptor.SymbolicTraits]? = nil,
+             textColor: UIColor = UIColor.black,
+             backgroundColor: UIColor = .clear,
+             useShadow: Bool = false) {
+        guard let attr = text?.asAttributedString(for: fontSize,
+                                                  weight: weight,
+                                                  textColor: textColor,
+                                                  backgroundColor: backgroundColor) else { return }
         if useShadow {
             attributedText = AText.init(attr.string, attributes: attr.attributes(at: 0, effectiveRange: nil)).shadow(color: UIColor.defaultShadowColor, radius: 5.0, x: 2, y: 2).attributedString
         } else {

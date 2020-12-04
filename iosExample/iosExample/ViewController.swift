@@ -29,8 +29,9 @@ class ViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         label.set(text: "\(Double(12).readablePrice())\n\(DateFormatter.readableDateFormatter.string(from: Date()))",
-                  for: .largeTitle,
-                  fontScale: 1.3,
+                  for: UIFont.TextStyle.largeTitle.fontSize,
+                  weight: .thin,
+                  traits: [.traitItalic],
                   textColor: UIColor.init(hexString: "#16C8C9"))
         stylesLabel.adjustsFontForContentSizeCategory = true
         stylesLabel.numberOfLines = 0
