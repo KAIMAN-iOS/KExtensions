@@ -11,6 +11,7 @@ import Foundation
 import SnapKit
 import StringExtension
 import FontExtension
+import Ampersand
 
 @objc public protocol TextFieldNavigationDelegate: class {
     func nextTextField()
@@ -67,12 +68,12 @@ public class InputView: UIView {
         backgroundColor = .white
     }
     
-    func add(controls: [KeyboardControl] = [.close], target: UIView, buttonFont: Fontable) {
+    func add(controls: [KeyboardControl] = [.close], target: UIView, buttonStyle: UIFont.TextStyle) {
         for control in controls {
             switch control {
             case .close:
                 let closeButton = UIButton()
-                closeButton.setAttributedTitle("close".local().asAttributedString(for: buttonFont, textColor: InputView.primaryColor), for: .normal)
+                closeButton.setAttributedTitle("close".local().asAttributedString(for: buttonStyle, textColor: InputView.primaryColor), for: .normal)
                 addSubview(closeButton)
                 closeButton.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()
@@ -82,7 +83,7 @@ public class InputView: UIView {
                 
             case .navigation(let delegate):
                 let previousButton = UIButton()
-                previousButton.setAttributedTitle("△".local().asAttributedString(for: buttonFont, textColor: InputView.primaryColor), for: .normal)
+                previousButton.setAttributedTitle("△".local().asAttributedString(for: buttonStyle, textColor: InputView.primaryColor), for: .normal)
                 addSubview(previousButton)
                 previousButton.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()
@@ -92,7 +93,7 @@ public class InputView: UIView {
                 previousButton.addTarget(delegate, action: #selector(TextFieldNavigationDelegate.previousTextField), for: .touchUpInside)
                 
                 let nextButton = UIButton()
-                nextButton.setAttributedTitle("▽".local().asAttributedString(for: buttonFont, textColor: InputView.primaryColor), for: .normal)
+                nextButton.setAttributedTitle("▽".local().asAttributedString(for: buttonStyle, textColor: InputView.primaryColor), for: .normal)
                 addSubview(nextButton)
                 nextButton.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()
@@ -105,21 +106,21 @@ public class InputView: UIView {
 }
 
 public extension UITextField {
-    func addKeyboardControlView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close], buttonFont: Fontable)  {
-        inputAccessoryView = self.inputView(with: backgroundColor, target: target, controls: controls, buttonFont: buttonFont)
+    func addKeyboardControlView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close], buttonStyle: UIFont.TextStyle)  {
+        inputAccessoryView = self.inputView(with: backgroundColor, target: target, controls: controls, buttonStyle: buttonStyle)
     }
 }
 
 public extension UITextView {
-    func addKeyboardControlView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close], buttonFont: Fontable)  {
-        inputAccessoryView = self.inputView(with: backgroundColor, target: target, controls: controls, buttonFont: buttonFont)
+    func addKeyboardControlView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close], buttonStyle: UIFont.TextStyle)  {
+        inputAccessoryView = self.inputView(with: backgroundColor, target: target, controls: controls, buttonStyle: buttonStyle)
     }
 }
 
 public extension UIView {
-    func inputView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close], buttonFont: Fontable) -> InputView  {
+    func inputView(with backgroundColor: UIColor = UIColor.lightGray, target: UIView, controls: [InputView.KeyboardControl] = [.close], buttonStyle: UIFont.TextStyle) -> InputView  {
         let view = InputView(frame: CGRect(origin: .zero, size: CGSize(width: UIApplication.shared.statusBarFrame.width, height: 40)), backgroundColor: backgroundColor)
-        view.add(controls: controls, target: target, buttonFont: buttonFont)
+        view.add(controls: controls, target: target, buttonStyle: buttonStyle)
         return view
     }
 }
@@ -133,7 +134,7 @@ public extension UITextField {
             datePicker.preferredDatePickerStyle = .wheels
         }
         datePicker.addTarget(target, action: selector, for: .valueChanged)
-        addKeyboardControlView(with: viewColor, target: self, buttonFont: FontType.default)
+        addKeyboardControlView(with: viewColor, target: self, buttonStyle: .body)
         return datePicker
     }
 }

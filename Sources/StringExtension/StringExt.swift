@@ -9,15 +9,17 @@
 import UIKit
 import NSAttributedStringBuilder
 import FontExtension
+import Ampersand
 
 public extension String {
     func local() -> String {
         return NSLocalizedString(self, comment: "")
     }
     
-    func asAttributedString(for style: Fontable, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, underline: NSUnderlineStyle? = nil) -> NSAttributedString {
+    func asAttributedString(for style: UIFont.TextStyle, fontScale: CGFloat = 1.0, textColor: UIColor = UIColor.black, backgroundColor: UIColor = .clear, underline: NSUnderlineStyle? = nil) -> NSAttributedString {
+        let font = UIFont.applicationFont(forTextStyle: style)
         let attr = AText(self)
-            .font(style.font.withSize(style.font.pointSize * fontScale))
+            .font(font.withSize(font.pointSize * fontScale))
             .foregroundColor(textColor)
             .backgroundColor(backgroundColor)
             .attributedString

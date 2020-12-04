@@ -8,76 +8,74 @@
 
 import UIKit
 
-public protocol Fontable {
-    var font: UIFont { get }
-}
-
-public enum FontType {
-    case bigTitle
-    case title
-    case button
-    case subTitle
-    case `default`
-    case footnote
-    case custom(_: Font.TextStyle, traits:[UIFontDescriptor.SymbolicTraits]?)
-}
-
-extension Fontable {
-    public var font: UIFont { .systemFont(ofSize: 12.0) }
-}
-
-extension FontType: Fontable {
-    public var font: UIFont {
-        switch self {
-        case .bigTitle: return Font.style(.title1)
-        case .title: return Font.style(.title2)
-        case .button:  return Font.style(.callout)
-        case .subTitle:  return Font.style(.subheadline)
-        case .default:  return Font.style(.body)
-        case .footnote:  return Font.style(.footnote)
-        case .custom(let style, let traits):  return traits == nil ? Font.style(style) : Font.style(style).withTraits(traits: traits!)
-        }
-    }
-}
-
-public struct Font {
-    
-    private init() { }
-    
-    public enum TextStyle {
-        case title1
-        case title2
-        case title3
-        case headline
-        case subheadline
-        case body
-        case callout
-        case footnote
-        case caption1
-        case caption2
-        
-        var value: UIFont.TextStyle {
-            switch self {
-            case .title1: return UIFont.TextStyle.title1
-            case .title2: return UIFont.TextStyle.title2
-            case .title3: return UIFont.TextStyle.title3
-            case .headline: return UIFont.TextStyle.headline
-            case .subheadline: return UIFont.TextStyle.subheadline
-            case .body: return UIFont.TextStyle.body
-            case .callout: return UIFont.TextStyle.callout
-            case .footnote: return UIFont.TextStyle.footnote
-            case .caption1: return UIFont.TextStyle.caption1
-            case .caption2: return UIFont.TextStyle.caption2
-            }
-        }
-    }
-    
-    public static func style(_ style: TextStyle) -> UIFont {
-        return UIFont.preferredFont(forTextStyle: style.value)
-    }
-    
-    
-}
+//public protocol Fontable {
+//    var font: UIFont { get }
+//}
+//
+//public enum FontType {
+//    case bigTitle
+//    case title
+//    case button
+//    case subTitle
+//    case `default`
+//    case footnote
+//    case custom(_: Font.TextStyle, traits:[UIFontDescriptor.SymbolicTraits]?)
+//}
+//
+//extension Fontable {
+//    public var font: UIFont { .systemFont(ofSize: 12.0) }
+//}
+//
+//extension FontType: Fontable {
+//    public var font: UIFont {
+//        switch self {
+//        case .bigTitle: return Font.style(.title1)
+//        case .title: return Font.style(.title2)
+//        case .button:  return Font.style(.callout)
+//        case .subTitle:  return Font.style(.subheadline)
+//        case .default:  return Font.style(.body)
+//        case .footnote:  return Font.style(.footnote)
+//        case .custom(let style, let traits):  return traits == nil ? Font.style(style) : Font.style(style).withTraits(traits: traits!)
+//        }
+//    }
+//}
+//
+//public struct Font {
+//
+//    private init() { }
+//
+//    public enum TextStyle {
+//        case title1
+//        case title2
+//        case title3
+//        case headline
+//        case subheadline
+//        case body
+//        case callout
+//        case footnote
+//        case caption1
+//        case caption2
+//
+//        var value: UIFont.TextStyle {
+//            switch self {
+//            case .title1: return UIFont.TextStyle.title1
+//            case .title2: return UIFont.TextStyle.title2
+//            case .title3: return UIFont.TextStyle.title3
+//            case .headline: return UIFont.TextStyle.headline
+//            case .subheadline: return UIFont.TextStyle.subheadline
+//            case .body: return UIFont.TextStyle.body
+//            case .callout: return UIFont.TextStyle.callout
+//            case .footnote: return UIFont.TextStyle.footnote
+//            case .caption1: return UIFont.TextStyle.caption1
+//            case .caption2: return UIFont.TextStyle.caption2
+//            }
+//        }
+//    }
+//
+//    public static func style(_ style: TextStyle) -> UIFont {
+//        return UIFont.preferredFont(forTextStyle: style.value)
+//    }
+//}
 
 public extension UIFont {
     
@@ -104,12 +102,17 @@ public extension UIFont {
     }
 }
 
-public let textStyles:[UIFont.TextStyle] = [.title1,
-                                    .headline,
-                                    .subheadline,
-                                    .body,
-                                    .footnote,
-                                    .caption2]
+public let textStyles: [UIFont.TextStyle] = [.title1,
+                                             .title2,
+                                             .title3,
+                                             .callout,
+                                             .headline,
+                                             .subheadline,
+                                             .body,
+                                             .footnote,
+                                             .caption1,
+                                             .largeTitle,
+                                             .caption2]
 
 
 // Dynamic Type change handler
