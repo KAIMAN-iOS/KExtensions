@@ -2,58 +2,58 @@
   "styles": [
     {
       "textStyle": "UICTFontTextStyleTitle0",
-      "fontName": "Poppins-SemiBold",
-      "pointSize": 34
+      "fontName": "Poppins-Bold",
+      "pointSize": 38
     },
     {
       "textStyle": "UICTFontTextStyleTitle1",
       "fontName": "Poppins-SemiBold",
-      "pointSize": 28
+      "pointSize": 30
     },
     {
       "textStyle": "UICTFontTextStyleTitle2",
       "fontName": "Poppins-Medium",
-      "pointSize": 22
+      "pointSize": 24
     },
     {
       "textStyle": "UICTFontTextStyleTitle3",
       "fontName": "Poppins-Regular",
-      "pointSize": 20
+      "pointSize": 22
     },
     {
       "textStyle": "UICTFontTextStyleHeadline",
       "fontName": "Poppins-Medium",
-      "pointSize": 17
+      "pointSize": 19
     },
     {
       "textStyle": "UICTFontTextStyleSubhead",
       "fontName": "Poppins-Regular",
-      "pointSize": 15
+      "pointSize": 17
     },
     {
       "textStyle": "UICTFontTextStyleBody",
       "fontName": "Poppins-Regular",
-      "pointSize": 17
+      "pointSize": 19
     },
     {
       "textStyle": "UICTFontTextStyleCallout",
-      "fontName": "Poppins-Light",
-      "pointSize": 16
+      "fontName": "Poppins-Regular",
+      "pointSize": 18
     },
     {
       "textStyle": "UICTFontTextStyleFootnote",
       "fontName": "Poppins-Thin",
-      "pointSize": 13
+      "pointSize": 15
     },
     {
       "textStyle": "UICTFontTextStyleCaption1",
       "fontName": "Poppins-ExtraLight",
-      "pointSize": 12
+      "pointSize": 14
     },
     {
       "textStyle": "UICTFontTextStyleCaption2",
-      "fontName": "Poppins-Thin",
-      "pointSize": 11
+      "fontName": "Poppins-ExtraLight",
+      "pointSize": 13
     }
   ],
   "weights": [

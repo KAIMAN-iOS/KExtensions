@@ -11,7 +11,7 @@ import Nuke
 import SnapKit
 
 public extension UIImageView {
-    func downloadImage(from url: URL, identifier: String? = nil, placeholder: UIImage?, activityColor: UIColor = UIColor.blue) {
+    func downloadImage(from url: URL, identifier: String? = nil, placeholder: UIImage?, activityColor: UIColor = UIColor.blue) -> ImageTask? {
         
         let activity = UIActivityIndicatorView(style: .white)
         activity.color = activityColor
@@ -23,7 +23,7 @@ public extension UIImageView {
         DataLoader.sharedUrlCache.diskCapacity = 200
         DataLoader.sharedUrlCache.memoryCapacity = 100
         
-        Nuke.loadImage(with: url, options: ImageLoadingOptions(placeholder: placeholder), into: self, completion:  { result in
+        return Nuke.loadImage(with: url, options: ImageLoadingOptions(placeholder: placeholder), into: self, completion:  { result in
             defer {
                 activity.removeFromSuperview()
             }
