@@ -196,7 +196,7 @@ public class DottedView: UIView {
     var lineWidth: CGFloat = 8.0
     var dotColor: UIColor = UIColor.red
     
-    enum Orientation {
+    public enum Orientation {
         case vertical, horizontal
         
         func startPoint(in view: UIView) -> CGPoint {
@@ -217,7 +217,7 @@ public class DottedView: UIView {
             }
         }
     }
-    var orientation: Orientation = .horizontal
+    public var orientation: Orientation = .horizontal
     
     override public func draw(_ rect: CGRect) {
         super.draw(rect)
