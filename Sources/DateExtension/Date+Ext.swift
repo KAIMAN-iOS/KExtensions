@@ -29,13 +29,19 @@ public struct CustomDate<E:DateFormatterDecodable>: Codable {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
+        let date = try dateAsString()
+        try container.encode(date)
+    }
+    
+    public enum CustomDateError: Error {
+        case wrongDateFormat
+    }
+    
+    public func dateAsString() throws -> String {
         guard let date = E.dateFormatter?.string(from: value) ?? E.isoDateFormatter?.string(from: value) else {
             throw CustomDateError.wrongDateFormat
         }
-        try container.encode(date)
-    }
-    public enum CustomDateError: Error {
-        case wrongDateFormat
+        return date
     }
 }
 
