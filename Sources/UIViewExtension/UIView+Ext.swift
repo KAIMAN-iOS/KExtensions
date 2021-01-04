@@ -193,8 +193,16 @@ public extension CGFloat {
 
 
 public class DottedView: UIView {
-    var lineWidth: CGFloat = 8.0
-    var dotColor: UIColor = UIColor.red
+    public var dotColor: UIColor = UIColor.white {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    public var dashes: [NSNumber] = [10, 10] {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     
     public enum Orientation {
         case vertical, horizontal
@@ -202,18 +210,18 @@ public class DottedView: UIView {
         func startPoint(in view: UIView) -> CGPoint {
             switch self {
             case .vertical:
-                return CGPoint(x:view.frame.midX, y:0)
+                return CGPoint(x:view.bounds.midX, y:0)
             case .horizontal:
-                return CGPoint(x:0, y:view.frame.midY)
+                return CGPoint(x:0, y:view.bounds.midY)
             }
         }
         
         func endPoint(in view: UIView) -> CGPoint {
             switch self {
             case .vertical:
-                return CGPoint(x:view.frame.midX, y:view.frame.maxY)
+                return CGPoint(x:view.bounds.midX, y:view.bounds.maxY)
             case .horizontal:
-                return CGPoint(x:view.frame.maxX, y:view.frame.midY)
+                return CGPoint(x:view.bounds.maxX, y:view.bounds.midY)
             }
         }
     }
@@ -221,25 +229,16 @@ public class DottedView: UIView {
     
     override public func draw(_ rect: CGRect) {
         super.draw(rect)
-        
-        let path = UIBezierPath()
-        path.move(to: orientation.startPoint(in: self))
-        path.addLine(to: orientation.endPoint(in: self))
-        path.lineWidth = lineWidth
-        
-        let dashes: [CGFloat] = [0.0001, path.lineWidth * 2]
-        path.setLineDash(dashes, count: dashes.count, phase: 0)
-        path.lineCapStyle = CGLineCap.round
-        
-        //        UIGraphicsBeginImageContextWithOptions(CGSize(width:300, height:20), false, 2)
-        
-        UIColor.white.setFill()
-        UIGraphicsGetCurrentContext()!.fill(.infinite)
-        dotColor.setStroke()
-        path.stroke()
-        //PlaygroundPage.current.liveView = view
-        
-        //        UIGraphicsEndImageContext()
+        layer.sublayers?.forEach({ $0.removeFromSuperlayer() })
+        let borderLayer = CAShapeLayer()
+        borderLayer.strokeColor = dotColor.cgColor
+        borderLayer.lineDashPattern = dashes
+        borderLayer.frame = bounds
+        borderLayer.fillColor = nil
+        let path = CGMutablePath()
+        path.addLines(between: [orientation.startPoint(in: self), orientation.endPoint(in: self)])
+        borderLayer.path = path
+        layer.addSublayer(borderLayer)
     }
 }
 
