@@ -12,6 +12,7 @@ let package = Package(
             name: "KExtensions",
             targets: ["ArrayExtension",
                       "ColorExtension",
+                      "CodableExtension",
                       "DateExtension",
                       "DoubleExtension",
                       "FontExtension",
@@ -26,7 +27,10 @@ let package = Package(
                       "UIImageViewExtension"]),
         .library(
             name: "ArrayExtension",
-            targets: ["ArrayExtension"]),
+            targets: ["ArrayExtension"]), // CodableExtension
+        .library(
+            name: "CodableExtension",
+            targets: ["CodableExtension"]),
         .library(
             name: "ColorExtension",
             targets: ["ColorExtension"]),
@@ -81,6 +85,9 @@ let package = Package(
             dependencies: []),
         .target(
             name: "ColorExtension",
+            dependencies: []),
+        .target(
+            name: "CodableExtension",
             dependencies: []),
         .target(
             name: "DateExtension",
