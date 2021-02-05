@@ -6,76 +6,99 @@
 //
 
 import Foundation
+import Alamofire
 
-extension Encodable {
+public enum MultipartEncodeError: Error {
+    case addFailed
+}
+
+public extension MultipartFormData {
+    func encode(_ value: Encodable, for key: String? = nil) throws {
+        guard let valueData = try? value.encoded() else {
+            throw MultipartEncodeError.addFailed
+        }
+        append(valueData, withName: key ?? String(describing: "value"))
+    }
+    
+    func encode(_ value: String, for key: String? = nil) throws {
+        guard let valueData = try? value.data(using: .utf8) else {
+            throw MultipartEncodeError.addFailed
+        }
+        append(valueData, withName: key ?? String(describing: "value"))
+    }
+}
+
+public extension Encodable {
     func encoded() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 }
 
-extension Data {
+public extension Data {
     func decoded<T: Decodable>() throws -> T {
         return try JSONDecoder().decode(T.self, from: self)
     }
 }
 
-enum DecodableDefault {}
-protocol DecodableDefaultSource {
+public enum DecodableDefault {}
+public protocol DecodableDefaultSource {
     associatedtype Value: Decodable
     static var defaultValue: Value { get }
 }
 
-extension DecodableDefault {
+public extension DecodableDefault {
     @propertyWrapper
     struct Wrapper<Source: DecodableDefaultSource> {
-        typealias Value = Source.Value
-        var wrappedValue = Source.defaultValue
+        public typealias Value = Source.Value
+        public var wrappedValue = Source.defaultValue
+        
+        public  init() {}
     }
 }
 
 extension DecodableDefault.Wrapper: Decodable {
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         wrappedValue = try container.decode(Value.self)
     }
 }
 
-extension KeyedDecodingContainer {
+public extension KeyedDecodingContainer {
     func decode<T>(_ type: DecodableDefault.Wrapper<T>.Type,
                    forKey key: Key) throws -> DecodableDefault.Wrapper<T> {
         try decodeIfPresent(type, forKey: key) ?? .init()
     }
 }
 
-extension DecodableDefault {
+public extension DecodableDefault {
     typealias Source = DecodableDefaultSource
     typealias List = Decodable & ExpressibleByArrayLiteral
     typealias Map = Decodable & ExpressibleByDictionaryLiteral
 
     enum Sources {
-        enum True: Source {
-            static var defaultValue: Bool { true }
+        public enum True: Source {
+            public static var defaultValue: Bool { true }
         }
 
-        enum False: Source {
-            static var defaultValue: Bool { false }
+        public enum False: Source {
+            public static var defaultValue: Bool { false }
         }
 
-        enum EmptyString: Source {
-            static var defaultValue: String { "" }
+        public enum EmptyString: Source {
+            public static var defaultValue: String { "" }
         }
 
-        enum EmptyList<T: List>: Source {
-            static var defaultValue: T { [] }
+        public enum EmptyList<T: List>: Source {
+            public static var defaultValue: T { [] }
         }
 
-        enum EmptyMap<T: Map>: Source {
-            static var defaultValue: T { [:] }
+        public enum EmptyMap<T: Map>: Source {
+            public static var defaultValue: T { [:] }
         }
     }
 }
 
-extension DecodableDefault {
+public extension DecodableDefault {
     typealias True = Wrapper<Sources.True>
     typealias False = Wrapper<Sources.False>
     typealias EmptyString = Wrapper<Sources.EmptyString>
@@ -94,16 +117,16 @@ extension DecodableDefault {
 //}
 
 @propertyWrapper
-struct Clamped<Value: Comparable & Codable> {
-    var value: Value
-    var range: ClosedRange<Value>
+public struct Clamped<Value: Comparable & Codable> {
+    public var value: Value
+    public var range: ClosedRange<Value>
     
-    init(wrappedValue: Value, range: ClosedRange<Value>) {
+    public init(wrappedValue: Value, range: ClosedRange<Value>) {
         value = wrappedValue
         self.range = range
     }
     
-    var wrappedValue: Value {
+    public var wrappedValue: Value {
         get { value }
         set { value = min(max(range.lowerBound, newValue), range.upperBound) }
     }

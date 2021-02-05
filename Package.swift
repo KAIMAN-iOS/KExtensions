@@ -76,6 +76,7 @@ let package = Package(
         .package(url: "https://github.com/SnapKit/SnapKit", from: "5.0.0"),
         .package(url: "https://github.com/kean/Nuke", from: "9.0.0"),
         .package(url: "https://github.com/darjeelingsteve/Ampersand", from: "1.1.0"),
+        .package(url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -85,7 +86,7 @@ let package = Package(
             dependencies: []),
         .target(
             name: "ColorExtension",
-            dependencies: []),
+            dependencies: ["Alamofire"]),
         .target(
             name: "CodableExtension",
             dependencies: []),
