@@ -86,10 +86,10 @@ let package = Package(
             dependencies: []),
         .target(
             name: "ColorExtension",
-            dependencies: ["Alamofire"]),
+            dependencies: []),
         .target(
             name: "CodableExtension",
-            dependencies: []),
+            dependencies: ["Alamofire"]),
         .target(
             name: "DateExtension",
             dependencies: []),

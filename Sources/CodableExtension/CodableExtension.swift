@@ -19,9 +19,9 @@ public extension MultipartFormData {
         }
         append(valueData, withName: key ?? String(describing: "value"))
     }
-    
+
     func encode(_ value: String, for key: String? = nil) throws {
-        guard let valueData = try? value.data(using: .utf8) else {
+        guard let valueData = value.data(using: .utf8) else {
             throw MultipartEncodeError.addFailed
         }
         append(valueData, withName: key ?? String(describing: "value"))
