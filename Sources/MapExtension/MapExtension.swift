@@ -29,7 +29,7 @@ public class DirectionManager {
     public enum DirectionManagerError: Error {
         case noRouteFound
     }
-    static let shared: DirectionManager = DirectionManager()
+    public static let shared: DirectionManager = DirectionManager()
     private init() {}
     
     public func loadDirections(for directions: Directions, transportType: MKDirectionsTransportType = .automobile) -> Promise<DirectionsAnswer> {

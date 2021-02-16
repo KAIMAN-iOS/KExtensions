@@ -19,6 +19,7 @@ let package = Package(
                       "ImageExtension",
                       "LabelExtension",
                       "LocationExtension",
+                      "MapExtension",
                       "StringExtension",
                       "TableViewExtension",
                       "TextFieldExtension",
