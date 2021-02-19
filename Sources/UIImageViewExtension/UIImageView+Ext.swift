@@ -14,6 +14,7 @@ public extension UIImageView {
     func downloadImage(from url: URL, identifier: String? = nil, placeholder: UIImage?, activityColor: UIColor = UIColor.blue) -> ImageTask? {
         
         let activity = UIActivityIndicatorView(style: .white)
+        activity.hidesWhenStopped = true
         activity.color = activityColor
         activity.startAnimating()
         addSubview(activity)
@@ -24,9 +25,13 @@ public extension UIImageView {
         DataLoader.sharedUrlCache.memoryCapacity = 100
         
         return Nuke.loadImage(with: url, options: ImageLoadingOptions(placeholder: placeholder), into: self, completion:  { result in
-            defer {
+            DispatchQueue.main.async {
+                activity.stopAnimating()
                 activity.removeFromSuperview()
+                // sometimes it is not removed from superview :-/ 
+                self.subviews.compactMap({ $0 as? UIActivityIndicatorView }).first?.removeFromSuperview()
             }
+            
             switch result {
             case .success: DataLoader.sharedUrlCache.cachedResponse(for: ImageRequest(url: url).urlRequest)
                 
