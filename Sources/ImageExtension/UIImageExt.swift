@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import KStorage
 
 public enum HEICError: Error {
   case heicNotSupported
@@ -150,5 +151,79 @@ public extension UIImage {
         
         guard let newCGImage = ctx.makeImage() else { return nil }
         return UIImage.init(cgImage: newCGImage, scale: 1, orientation: .up)
+    }
+}
+
+public class ImageManager {
+    private init() {}
+    static let shared: ImageManager = ImageManager()
+    private var storage = DataStorage()
+    
+    public static func save(_ image: UIImage, imagePath: String? = nil) throws -> URL {
+        if let path = imagePath {
+            return try save(image, path: path)
+        } else {
+            return try save(image, path: FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).path)
+        }
+    }
+    
+    private static func save(_ image: UIImage, path: String) throws -> URL {
+        try ImageManager.shared.storage.save(image, path: path)
+    }
+    
+    public static func fetchImage(with name: String) -> UIImage? {
+        guard let url = URL(string: DataStorage.storageDirectoryPath + "/" + name) else { return nil }
+        return try? ImageManager.shared.storage.fetchImage(at: url)
+    }
+}
+
+
+// MARK: - CodableImage
+/// A class that wrapps an UIImage and an imageURL to handle locally saved images for upaload and distant image URL for display
+class CodableImage: Codable, Hashable {
+    static func == (lhs: CodableImage, rhs: CodableImage) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    var image: UIImage?  {
+        didSet {
+            guard let image = image,
+                  let url = try? ImageManager.save(image) else {
+                return
+            }
+            imageURL = url
+        }
+    }
+    var imageURL: URL?
+    
+    // MARK: - init
+    init(imageURL: URL) {
+        self.imageURL = imageURL
+    }
+    init?(_ image: UIImage) {
+        self.image = image
+    }
+    
+    // MARK: - codable
+    enum CodingKeys: String, CodingKey {
+        case imageURL
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        //mandatory
+        if let str = try container.decodeIfPresent(String.self, forKey: .imageURL) {
+            imageURL = URL(string: str)
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(imageURL?.absoluteString, forKey: .imageURL)
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(imageURL)
+        hasher.combine(image)
     }
 }
