@@ -180,12 +180,12 @@ public class ImageManager {
 
 // MARK: - CodableImage
 /// A class that wrapps an UIImage and an imageURL to handle locally saved images for upaload and distant image URL for display
-class CodableImage: Codable, Hashable {
-    static func == (lhs: CodableImage, rhs: CodableImage) -> Bool {
+public class CodableImage: Codable, Hashable {
+    public static func == (lhs: CodableImage, rhs: CodableImage) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
     
-    var image: UIImage?  {
+    public var image: UIImage?  {
         didSet {
             guard let image = image,
                   let url = try? ImageManager.save(image) else {
@@ -194,22 +194,22 @@ class CodableImage: Codable, Hashable {
             imageURL = url
         }
     }
-    var imageURL: URL?
+    public var imageURL: URL?
     
     // MARK: - init
-    init(imageURL: URL) {
+    public init(imageURL: URL) {
         self.imageURL = imageURL
     }
-    init?(_ image: UIImage) {
+    public init?(_ image: UIImage) {
         self.image = image
     }
     
     // MARK: - codable
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case imageURL
     }
     
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         //mandatory
         if let str = try container.decodeIfPresent(String.self, forKey: .imageURL) {
@@ -217,12 +217,12 @@ class CodableImage: Codable, Hashable {
         }
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(imageURL?.absoluteString, forKey: .imageURL)
     }
     
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(imageURL)
         hasher.combine(image)
     }
