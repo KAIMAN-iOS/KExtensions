@@ -71,6 +71,15 @@ public extension DateFormatter {
         return f
     } ()
     
+    @available(iOS 13.0, *)
+    static let relativeDayFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.timeStyle = .none
+        f.dateStyle = .medium
+        f.doesRelativeDateFormatting = true
+        return f
+    } ()
+    
     static let timeOnlyFormatter: DateFormatter = {
         let f = DateFormatter()
         f.timeStyle = .short
