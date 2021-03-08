@@ -48,7 +48,8 @@ public struct CustomDate<E:DateFormatterDecodable>: Codable {
 public struct ISODateFormatterDecodable: DateFormatterDecodable {
     public static var isoDateFormatter: ISO8601DateFormatter? {
         let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+//        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        dateFormatter.formatOptions = [.withInternetDateTime]
         return dateFormatter
     }
     public static var dateFormatter: DateFormatter? {
