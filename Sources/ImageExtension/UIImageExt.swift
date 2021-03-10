@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import KStorage
+import Alamofire
 
 public enum HEICError: Error {
   case heicNotSupported
@@ -225,6 +226,7 @@ public class CodableImage: Codable, Hashable {
         }
     }
     public var imageURL: URL?
+    let imageName: String = UUID().uuidString // to upload image name purposes
     
     // MARK: - init
     public init(imageURL: URL) {
@@ -237,6 +239,7 @@ public class CodableImage: Codable, Hashable {
     // MARK: - codable
     public enum CodingKeys: String, CodingKey {
         case imageURL
+        case imageName
     }
     
     public required init(from decoder: Decoder) throws {
@@ -249,11 +252,24 @@ public class CodableImage: Codable, Hashable {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(imageURL?.absoluteString, forKey: .imageURL)
+        try container.encodeIfPresent(imageName, forKey: .imageName)
     }
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(imageURL)
         hasher.combine(image)
+    }
+}
+
+extension MultipartFormData {
+    func encode(images: Set<CodableImage>, for key: String = "images") {
+        images.forEach { image in
+            if let url = image.imageURL,
+               url.isFileURL,
+               let dataImage = try? Data(contentsOf: url),
+               let data = UIImage(data: dataImage)?.jpegData(compressionQuality: 0.7) {
+                append(data, withName: image.imageName, fileName: image.imageName, mimeType: "image/jpg")
+            }
+        }
     }
 }
