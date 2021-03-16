@@ -42,7 +42,7 @@ public extension Data {
 
 public enum DecodableDefault {}
 public protocol DecodableDefaultSource {
-    associatedtype Value: Decodable
+    associatedtype Value: Codable
     static var defaultValue: Value { get }
 }
 
@@ -56,10 +56,15 @@ public extension DecodableDefault {
     }
 }
 
-extension DecodableDefault.Wrapper: Decodable {
+extension DecodableDefault.Wrapper: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         wrappedValue = try container.decode(Value.self)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(wrappedValue)
     }
 }
 
@@ -72,8 +77,8 @@ public extension KeyedDecodingContainer {
 
 public extension DecodableDefault {
     typealias Source = DecodableDefaultSource
-    typealias List = Decodable & ExpressibleByArrayLiteral
-    typealias Map = Decodable & ExpressibleByDictionaryLiteral
+    typealias List = Codable & ExpressibleByArrayLiteral
+    typealias Map = Codable & ExpressibleByDictionaryLiteral
 
     enum Sources {
         public enum True: Source {
