@@ -107,7 +107,7 @@ let package = Package(
             dependencies: ["Ampersand"]),
         .target(
             name: "ImageExtension",
-            dependencies: ["KStorage"]),
+            dependencies: ["KStorage", "Alamofire"]),
         .target(
             name: "LabelExtension",
             dependencies: ["NSAttributedStringBuilder", "StringExtension"]),
