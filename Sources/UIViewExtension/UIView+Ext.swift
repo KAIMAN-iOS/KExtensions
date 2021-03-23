@@ -84,7 +84,7 @@ public extension UIView {
 }
 
 public extension UIView {
-    func addShadow(roundCorners: Bool = true, shadowColor: CGColor? = UIColor(named: "shadow")?.cgColor, shadowOffset: CGSize = CGSize(width: 0, height: 4), shadowRadius: CGFloat = 4.0, shadowOpacity: Float = 0.2, useMotionEffect: Bool = true) {
+    func addShadow(roundCorners: Bool = true, shadowColor: CGColor? = UIColor(named: "shadow")?.cgColor, shadowOffset: CGSize = CGSize(width: 0, height: 4), shadowRadius: CGFloat = 4.0, shadowOpacity: Float = 0.2, useMotionEffect: Bool = false) {
         if roundCorners {
             layer.cornerRadius = min(frame.width, frame.height) / 2
         }
