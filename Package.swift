@@ -131,7 +131,7 @@ let package = Package(
             dependencies: ["PromiseKit"]),
         .target(
             name: "UIViewControllerExtension",
-            dependencies: ["StringExtension"]),
+            dependencies: ["StringExtension", "SnapKit"]),
         .target(
             name: "UIImageViewExtension",
             dependencies: ["Nuke"])

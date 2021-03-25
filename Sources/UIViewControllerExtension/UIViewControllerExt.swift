@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import StringExtension
+import SnapKit
 
 public extension UIViewController {
     
@@ -133,13 +134,14 @@ public extension UIViewController {
 }
 
 extension UIViewController {
-    func add(_ child: UIViewController) {
+    public func add(_ child: UIViewController, snapCompletion: (ConstraintMaker) -> Void) {
         addChild(child)
         view.addSubview(child.view)
         child.didMove(toParent: self)
+        child.view.snp.makeConstraints(snapCompletion)
     }
 
-    func remove() {
+    public func remove() {
         // Just to be safe, we check that this view controller
         // is actually added to a parent before removing it.
         guard parent != nil else {
