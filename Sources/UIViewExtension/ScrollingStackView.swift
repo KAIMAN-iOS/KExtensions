@@ -22,27 +22,40 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 import UIKit
+import TextFieldExtension
 
-class ScrollingStackView: UIScrollView {
+public class ScrollingStackView: UIScrollView {
     private var stackView = UIStackView()
     private var axisConstraint: NSLayoutConstraint?
+    
+    @objc func adjustForKeyboard(notification: Notification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = convert(keyboardScreenEndFrame, from: window)
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            contentInset = .zero
+        } else {
+            contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - safeAreaInsets.bottom, right: 0)
+        }
+        scrollIndicatorInsets = contentInset
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit(axis: .vertical)
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit(axis: .vertical)
     }
     
-    init(axis: NSLayoutConstraint.Axis = .vertical) {
+    public init(axis: NSLayoutConstraint.Axis = .vertical) {
         super.init(frame: CGRect.zero)
         commonInit(axis: axis)
     }
     
-    convenience init(arrangedSubviews: [UIView], axis: NSLayoutConstraint.Axis = .vertical) {
+    public convenience init(arrangedSubviews: [UIView], axis: NSLayoutConstraint.Axis = .vertical) {
         self.init(axis: axis)
         for subview in arrangedSubviews {
             stackView.addArrangedSubview(subview)
@@ -52,108 +65,125 @@ class ScrollingStackView: UIScrollView {
     private func commonInit(axis: NSLayoutConstraint.Axis) {
         embed(stackView)
         self.axis = axis
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing(_:)))
+        addGestureRecognizer(tap)
     }
 }
 
 // MARK: - Pass-throughs to UIStackView
 // MARK: Managing arranged subviews
 extension ScrollingStackView {
-  func addArrangedSubview(_ view: UIView) {
-    stackView.addArrangedSubview(view)
-  }
-
-  var arrangedSubviews: [UIView] {
-    return stackView.arrangedSubviews
-  }
-
-  func insertArrangedSubview(_ view: UIView, at stackIndex: Int) {
-    stackView.insertArrangedSubview(view, at: stackIndex)
-  }
-
-  func removeArrangedSubview(_ view: UIView) {
-    stackView.removeArrangedSubview(view)
-  }
+    private func handleTextfield(for view: UIView) {
+        guard let tf = view.findFirstSubview(withType: UITextField.self) else {
+            return
+        }
+        tf.addKeyboardControlView(target: self, buttonStyle: .body)
+    }
+    public func addArrangedSubview(_ view: UIView) {
+        stackView.addArrangedSubview(view)
+        handleTextfield(for: view)
+    }
+    
+    public var arrangedSubviews: [UIView] {
+        return stackView.arrangedSubviews
+    }
+    
+    public func insertArrangedSubview(_ view: UIView, at stackIndex: Int) {
+        stackView.insertArrangedSubview(view, at: stackIndex)
+        handleTextfield(for: view)
+    }
+    
+    public func removeArrangedSubview(_ view: UIView) {
+        stackView.removeArrangedSubview(view)
+    }
 }
 
 // MARK: Configuring the layout
 extension ScrollingStackView {
-  var alignment: UIStackView.Alignment {
-    get { return stackView.alignment }
-    set { stackView.alignment = newValue }
-  }
-
-  var axis: NSLayoutConstraint.Axis {
-    get { return stackView.axis }
-    set {
-      axisConstraint?.isActive = false // deactivate existing constraint, if any
-      switch newValue as NSLayoutConstraint.Axis {
-      case .vertical:
-        axisConstraint = stackView.widthAnchor.constraint(equalTo: self.widthAnchor)
-      case .horizontal:
-        axisConstraint = stackView.heightAnchor.constraint(equalTo: self.heightAnchor)
-      @unknown default:
-        axisConstraint = stackView.heightAnchor.constraint(equalTo: self.heightAnchor)
-      }
-      axisConstraint?.isActive = true // activate new constraint
-      stackView.axis = newValue
+    public var alignment: UIStackView.Alignment {
+        get { return stackView.alignment }
+        set { stackView.alignment = newValue }
     }
-  }
-
-  var isBaselineRelativeArrangement: Bool {
-    get { return stackView.isBaselineRelativeArrangement }
-    set { stackView.isBaselineRelativeArrangement = newValue }
-  }
-
-  var distribution: UIStackView.Distribution {
-    get { return stackView.distribution }
-    set { stackView.distribution = newValue }
-  }
-
-  var isLayoutMarginsRelativeArrangement: Bool {
-    get { return stackView.isLayoutMarginsRelativeArrangement }
-    set { stackView.isLayoutMarginsRelativeArrangement = newValue }
-  }
-
-  var spacing: CGFloat {
-    get { return stackView.spacing }
-    set { stackView.spacing = newValue }
-  }
+    
+    public var axis: NSLayoutConstraint.Axis {
+        get { return stackView.axis }
+        set {
+            axisConstraint?.isActive = false // deactivate existing constraint, if any
+            switch newValue as NSLayoutConstraint.Axis {
+            case .vertical:
+                axisConstraint = stackView.widthAnchor.constraint(equalTo: self.widthAnchor)
+            case .horizontal:
+                axisConstraint = stackView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            @unknown default:
+                axisConstraint = stackView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            }
+            axisConstraint?.isActive = true // activate new constraint
+            stackView.axis = newValue
+        }
+    }
+    
+    public var isBaselineRelativeArrangement: Bool {
+        get { return stackView.isBaselineRelativeArrangement }
+        set { stackView.isBaselineRelativeArrangement = newValue }
+    }
+    
+    public var distribution: UIStackView.Distribution {
+        get { return stackView.distribution }
+        set { stackView.distribution = newValue }
+    }
+    
+    public var isLayoutMarginsRelativeArrangement: Bool {
+        get { return stackView.isLayoutMarginsRelativeArrangement }
+        set { stackView.isLayoutMarginsRelativeArrangement = newValue }
+    }
+    
+    public var spacing: CGFloat {
+        get { return stackView.spacing }
+        set { stackView.spacing = newValue }
+    }
 }
 
 // MARK: Adding space between items
 @available(iOS 11.0, *)
 extension ScrollingStackView {
-  func customSpacing(after arrangedSubview: UIView) -> CGFloat {
-    return stackView.customSpacing(after: arrangedSubview)
-  }
-
-  func setCustomSpacing(_ spacing: CGFloat, after arrangedSubview: UIView) {
-      stackView.setCustomSpacing(spacing, after: arrangedSubview)
-  }
-
-  class var spacingUseDefault: CGFloat {
-    return UIStackView.spacingUseDefault
-  }
-
-  class var spacingUseSystem: CGFloat {
-    return UIStackView.spacingUseSystem
-  }
+    public func customSpacing(after arrangedSubview: UIView) -> CGFloat {
+        return stackView.customSpacing(after: arrangedSubview)
+    }
+    
+    public func setCustomSpacing(_ spacing: CGFloat, after arrangedSubview: UIView) {
+        stackView.setCustomSpacing(spacing, after: arrangedSubview)
+    }
+    
+    public class var spacingUseDefault: CGFloat {
+        return UIStackView.spacingUseDefault
+    }
+    
+    public class var spacingUseSystem: CGFloat {
+        return UIStackView.spacingUseSystem
+    }
 }
 
 // MARK: - UIView overrides
 extension ScrollingStackView {
-    override var layoutMargins: UIEdgeInsets {
+    public override var layoutMargins: UIEdgeInsets {
         get { return stackView.layoutMargins }
         set { stackView.layoutMargins = newValue }
     }
     
-    override  var directionalLayoutMargins: NSDirectionalEdgeInsets {
+    public override var directionalLayoutMargins: NSDirectionalEdgeInsets {
         get { return stackView.directionalLayoutMargins }
         set { stackView.directionalLayoutMargins = newValue }
     }
+    
+    public func clear(from: Int = 0, to: Int? = nil) {
+        stackView.clear(from: from, to: to)
+    }
 }
 
-extension UIView {
+public extension UIView {
     func embed(_ child: UIView) {
         child.translatesAutoresizingMaskIntoConstraints = false
         addSubview(child)

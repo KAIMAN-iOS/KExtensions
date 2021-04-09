@@ -125,7 +125,7 @@ let package = Package(
             dependencies: ["SnapKit", "StringExtension", "FontExtension"]),
         .target(
             name: "UIViewExtension",
-            dependencies: ["SnapKit"]),
+            dependencies: ["SnapKit", "TextFieldExtension"]),
         .target(
             name: "MapExtension",
             dependencies: ["PromiseKit"]),
