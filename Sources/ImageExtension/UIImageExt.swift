@@ -226,13 +226,13 @@ public class CodableImage: Codable, Hashable {
         }
     }
     public var imageURL: URL?
-    let imageName: String = UUID().uuidString // to upload image name purposes
+    public let imageName: String = UUID().uuidString // to upload image name purposes
     
     // MARK: - init
     public init(imageURL: URL) {
         self.imageURL = imageURL
     }
-    public init?(_ image: UIImage) {
+    public init(_ image: UIImage? = nil) {
         self.image = image
     }
     
