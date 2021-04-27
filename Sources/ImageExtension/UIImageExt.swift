@@ -211,7 +211,7 @@ public class ImageManager {
 
 // MARK: - CodableImage
 /// A class that wrapps an UIImage and an imageURL to handle locally saved images for upaload and distant image URL for display
-public class CodableImage: Codable, Hashable {
+open class CodableImage: Codable, Hashable {
     public static func == (lhs: CodableImage, rhs: CodableImage) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
@@ -262,12 +262,13 @@ public class CodableImage: Codable, Hashable {
 }
 
 extension MultipartFormData {
-    func encode(images: Set<CodableImage>, for key: String = "images") {
+    public func encode(images: Set<CodableImage>, for key: String = "images") {
         images.forEach { image in
             if let url = image.imageURL,
                url.isFileURL,
                let dataImage = try? Data(contentsOf: url),
-               let data = UIImage(data: dataImage)?.jpegData(compressionQuality: 0.7) {
+               let tmpImage = UIImage(data: dataImage)?.scalePreservingAspectRatio(targetSize: CGSize(width: 1200, height: 1200)),
+               let data = tmpImage.jpegData(compressionQuality: 0.7) {
                 append(data, withName: image.imageName, fileName: image.imageName, mimeType: "image/jpg")
             }
         }
