@@ -10,6 +10,37 @@ import UIKit
 import AVFoundation
 import KStorage
 import Alamofire
+import CoreImage
+
+public enum FilterType : String, Codable, CaseIterable {
+    case Chrome = "CIPhotoEffectChrome"
+    case Fade = "CIPhotoEffectFade"
+    case Instant = "CIPhotoEffectInstant"
+    case Mono = "CIPhotoEffectMono"
+    case Noir = "CIPhotoEffectNoir"
+    case Process = "CIPhotoEffectProcess"
+    case Tonal = "CIPhotoEffectTonal"
+    case Transfer =  "CIPhotoEffectTransfer"
+    case ComicEffect = "CIComicEffect"
+}
+
+extension UIImage {
+    static let backgroungImageProcessingQueue: DispatchQueue = DispatchQueue(label: "backgroungImageProcessingQueue")
+    public func addFilter(filter : FilterType, completion: @escaping ((UIImage?) -> Void)) {
+        UIImage.backgroungImageProcessingQueue.async {
+            let filter = CIFilter(name: filter.rawValue)
+            // convert UIImage to CIImage and set as input
+            let ciInput = CIImage(image: self)
+            filter?.setValue(ciInput, forKey: "inputImage")
+            // get output CIImage, render as CGImage first to retain proper UIImage scale
+            guard let ciOutput = filter?.outputImage else { completion(nil); return }
+            let ciContext = CIContext()
+            guard let cgImage = ciContext.createCGImage(ciOutput, from: ciOutput.extent) else { completion(nil); return }
+            //Return the image
+            completion(UIImage(cgImage: cgImage))
+        }
+    }
+}
 
 public enum HEICError: Error {
   case heicNotSupported
@@ -182,6 +213,21 @@ public extension UIImage {
         
         guard let newCGImage = ctx.makeImage() else { return nil }
         return UIImage.init(cgImage: newCGImage, scale: 1, orientation: .up)
+    }
+}
+
+extension UIImage {
+    public var grayscale: UIImage? {
+        let context = CIContext(options: nil)
+        if let filter = CIFilter(name: "CIPhotoEffectNoir") {
+            filter.setValue(CIImage(image: self), forKey: kCIInputImageKey)
+            if let output = filter.outputImage {
+                if let cgImage = context.createCGImage(output, from: output.extent) {
+                    return UIImage(cgImage: cgImage)
+                }
+            }
+        }
+        return nil
     }
 }
 
