@@ -17,6 +17,7 @@ public extension MultipartFormData {
         guard let valueData = try? value.encoded() else {
             throw MultipartEncodeError.addFailed
         }
+        print("🔥 \(String(data: valueData, encoding: .utf8) ?? "") for \(key ?? String(describing: value))")
         append(valueData, withName: key ?? String(describing: value))
     }
 
@@ -24,6 +25,7 @@ public extension MultipartFormData {
         guard let valueData = value.data(using: .utf8) else {
             throw MultipartEncodeError.addFailed
         }
+        print("🔥🔥 \(String(data: valueData, encoding: .utf8) ?? "") for \(key ?? String(describing: value))")
         append(valueData, withName: key ?? String(describing: value))
     }
 }
