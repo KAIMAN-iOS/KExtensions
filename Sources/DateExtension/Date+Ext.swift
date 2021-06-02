@@ -13,6 +13,35 @@ public protocol DateFormatterDecodable {
     static var isoDateFormatter: ISO8601DateFormatter? { get }
 }
 
+@propertyWrapper
+public struct ISO8601Date<E:DateFormatterDecodable>: Codable {
+    public var wrappedValue: Date
+    
+    public init(wrappedValue: Date) {
+        self.wrappedValue = wrappedValue
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let text = try container.decode(String.self)
+        guard let date = E.dateFormatter?.date(from: text) ?? E.isoDateFormatter?.date(from: text) else {
+            throw CustomDateError.wrongDateFormat
+        }
+        self.wrappedValue = date
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        let date = try CustomDate<E>.init(date: wrappedValue).dateAsString()
+        try container.encode(date)
+    }
+
+}
+
+public enum CustomDateError: Error {
+    case wrongDateFormat
+}
+
 public struct CustomDate<E:DateFormatterDecodable>: Codable {
     public let value: Date
     public init(date: Date) {
@@ -31,10 +60,6 @@ public struct CustomDate<E:DateFormatterDecodable>: Codable {
         var container = encoder.singleValueContainer()
         let date = try dateAsString()
         try container.encode(date)
-    }
-    
-    public enum CustomDateError: Error {
-        case wrongDateFormat
     }
     
     public func dateAsString() throws -> String {
