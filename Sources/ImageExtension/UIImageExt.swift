@@ -284,7 +284,7 @@ open class CodableImage: Codable, Hashable {
     
     // MARK: - codable
     public enum CodingKeys: String, CodingKey {
-        case imageURL
+        case imageURL = "imageUrl"
         case imageName
     }
     
