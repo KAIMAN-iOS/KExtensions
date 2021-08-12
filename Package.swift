@@ -82,7 +82,7 @@ let package = Package(
         .package(url: "https://github.com/darjeelingsteve/Ampersand", from: "1.1.0"),
         .package(url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
         .package(url: "https://github.com/mxcl/PromiseKit", from: "6.13.2"),
-        .package(url: "https://github.com/jerometonnelier/KStorage", from: "1.0.0"),
+        .package(url: "https://github.com/KAIMAN-iOS/KStorage", from: "1.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
