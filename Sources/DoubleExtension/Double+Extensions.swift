@@ -63,4 +63,11 @@ public extension Double {
         return formatter.string(from: self as NSNumber) ?? "n/a"
     }
     
+    func readableTime() -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute]
+        formatter.unitsStyle = .abbreviated
+        return formatter.string(from: self) ?? ""
+    }
+    
 }
