@@ -89,6 +89,12 @@ public extension UIFont {
         return UIFont(descriptor: descriptor!, size: 0)
     }
     
+    func withoutTraits(_ traits:UIFontDescriptor.SymbolicTraits...) -> UIFont {
+        let descriptor = self.fontDescriptor
+            .withSymbolicTraits(  self.fontDescriptor.symbolicTraits.subtracting(UIFontDescriptor.SymbolicTraits(traits)))
+        return UIFont(descriptor: descriptor!, size: 0)
+    }
+    
     func bold() -> UIFont {
         return withTraits(traits: .traitBold)
     }
@@ -99,6 +105,10 @@ public extension UIFont {
     
     func boldItalic() -> UIFont {
         return withTraits(traits: .traitBold, .traitItalic)
+    }
+    
+    func noBold() -> UIFont {
+        return withoutTraits(.traitBold)
     }
 }
 
