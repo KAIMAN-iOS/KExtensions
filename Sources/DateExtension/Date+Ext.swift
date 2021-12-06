@@ -85,7 +85,7 @@ public struct GMTISODateFormatterDecodable: DateFormatterDecodable {
     public static var isoDateFormatter: ISO8601DateFormatter? {
         let dateFormatter = ISO8601DateFormatter()
 //        dateFormatter.formatOptions = [.withInternetDateTime]
-        dateFormatter.timeZone = TimeZone(identifier: "GB")
+        dateFormatter.timeZone = TimeZone.current
         return dateFormatter
     }
     public static var dateFormatter: DateFormatter? {
