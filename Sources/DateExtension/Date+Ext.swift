@@ -147,3 +147,14 @@ public extension DateFormatter {
         return f
     } ()
 }
+
+extension Date {
+    public var toNextFiveMinutes: Date? {
+        let comps = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
+        if let minutes = comps.minute, minutes % 5 != 0 {
+            return self.addingTimeInterval(5 * 60)
+        } else {
+            return self
+        }
+    }
+}
