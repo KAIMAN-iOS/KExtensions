@@ -152,7 +152,7 @@ extension Date {
     public var toNextFiveMinutes: Date? {
         let comps = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
         if let minutes = comps.minute, minutes % 5 != 0 {
-            return self.addingTimeInterval(5 * 60)
+            return self.addingTimeInterval(TimeInterval((5 - ((minutes % 10) < 5 ? (minutes % 10) : ((minutes % 10) - 5))) * 60))
         } else {
             return self
         }
