@@ -10,7 +10,6 @@ import UIKit
 import Photos
 import StringExtension
 import SnapKit
-import Imaginary
 
 public extension UIViewController {
     
