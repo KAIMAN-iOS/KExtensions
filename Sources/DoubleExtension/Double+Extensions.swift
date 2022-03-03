@@ -29,15 +29,15 @@ public extension Double {
         switch (self, Locale.current.usesMetricSystem) {
         case (let value, true) where value < 1000:
             return ValueDisplayable<String>(value: "\(value)",
-                                            unit: "meters short".bundleLocale())
+                                            unit: NSLocalizedString("meters short", comment: ""))
         case (let value, true):
             var format = "%0.\(decimals)"
             format += decimals == 0 ? "d" : "f"
             return ValueDisplayable<String>(value: String(format: format, value.km()),
-                                            unit: "miles short".bundleLocale())
+                                            unit: NSLocalizedString("kilometers short", comment: ""))
         case (_, false):
             return ValueDisplayable<String>(value: "\(self.rounded(toPlaces: decimals))",
-                                            unit: "miles short".bundleLocale())
+                                            unit: NSLocalizedString("miles short", comment: ""))
         }
     }
     
@@ -50,7 +50,7 @@ public extension Double {
             return ValueDisplayable<String>(value: self.readableTime(), unit: nil)
         } else {
             return ValueDisplayable<String>(value: "\(Int(self/60.0))",
-                                            unit: "minutes short".bundleLocale())
+                                            unit: NSLocalizedString("minutes short", comment: "minutes short"))
         }
     }
     
@@ -70,15 +70,15 @@ public extension Double {
         let returnBlock: () -> String? = {
             if self > 999 {
                 if addSpace {
-                    return "\(self.km()) \("kilometers short".bundleLocale)"
+                    return "\(self.km()) \(NSLocalizedString("kilometers short", comment: ""))"
                 } else {
-                    return "\(self.km())\("kilometers short".bundleLocale)"
+                    return "\(self.km())\(NSLocalizedString("kilometers short", comment: ""))"
                 }
             } else {
                 if addSpace {
-                    return "\(Int(self.rounded(toPlaces: 0))) \("meters short".bundleLocale)"
+                    return "\(Int(self.rounded(toPlaces: 0))) \(NSLocalizedString("meters short", comment: ""))"
                 } else {
-                    return "\(Int(self.rounded(toPlaces: 0)))\("meters short".bundleLocale)"
+                    return "\(Int(self.rounded(toPlaces: 0)))\(NSLocalizedString("meters short", comment: ""))"
                 }
             }
         }
