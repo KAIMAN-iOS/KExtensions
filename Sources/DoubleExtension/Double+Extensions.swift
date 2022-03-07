@@ -28,12 +28,10 @@ public extension Double {
     func metersToLocalizedDistance(decimals: Int = 1) -> ValueDisplayable<String> {
         switch (self, Locale.current.usesMetricSystem) {
         case (let value, true) where value < 1000:
-            return ValueDisplayable<String>(value: "\(value)",
+            return ValueDisplayable<String>(value: "\(Int(value))",
                                             unit: NSLocalizedString("meters short", comment: ""))
         case (let value, true):
-            var format = "%0.\(decimals)"
-            format += decimals == 0 ? "d" : "f"
-            return ValueDisplayable<String>(value: String(format: format, value.km()),
+            return ValueDisplayable<String>(value: String(format: "%0.\(decimals)f", value.km()),
                                             unit: NSLocalizedString("kilometers short", comment: ""))
         case (_, false):
             return ValueDisplayable<String>(value: "\(self.rounded(toPlaces: decimals))",
