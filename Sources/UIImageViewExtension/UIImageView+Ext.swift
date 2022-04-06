@@ -33,7 +33,9 @@ public extension UIImageView {
             }
             
             switch result {
-            case .success: DataLoader.sharedUrlCache.cachedResponse(for: ImageRequest(url: url).urlRequest)
+            case .success(let image):
+                DataLoader.sharedUrlCache.cachedResponse(for: ImageRequest(url: url).urlRequest)
+                self.image = image.image
                 
             default:
                 if let cache = DataLoader.sharedUrlCache.cachedResponse(for: ImageRequest(url: url).urlRequest),
