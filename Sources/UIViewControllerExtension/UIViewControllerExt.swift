@@ -53,11 +53,25 @@ public extension UIViewController {
     }
 }
 
+extension UIAlertController.Style {
+    // ipad allow .actionSheet only presented for some concrete controls (and cashes otherwise!)
+    // whereas iphone can present .actionSheet unconditionally.
+    // .safeActionSheet returns .alert for systems that do not support .actionSheet unconditionally.
+    // if in doubt, always prefer .safeActionSheet over .actionSheet
+    public static var safeActionSheet: UIAlertController.Style {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return .alert
+        } else {
+            return .actionSheet
+        }
+    }
+}
+
 public extension UIViewController {
     func presentImagePickerChoice(mediaTypes: [String] = ["public.image"],
                                   delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate,
                                   tintColor: UIColor?,
-                                  presentCompletion: ((UIImagePickerController) -> Void)? = nil) {
+                                  presentCompletion: ((UIImagePickerController?, PHAuthorizationStatus?) -> Void)? = nil) {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) == true, UIImagePickerController.isSourceTypeAvailable(.photoLibrary) == true else {
             showImagePicker(with: UIImagePickerController.isSourceTypeAvailable(.camera) ? .camera : .photoLibrary,
                             mediaTypes: mediaTypes,
@@ -66,7 +80,11 @@ public extension UIViewController {
             return
         }
         
-        let actionSheet = UIAlertController(title: "Choose an image".local(), message: nil, preferredStyle: .actionSheet)
+        let actionSheet = UIAlertController(title: "Choose an image".local(), message: nil, preferredStyle: .safeActionSheet)
+//        if #available(iOS 15.0, *) {
+//            actionSheet.sheetPresentationController?.sourceView = self.view
+//            actionSheet.popoverPresentationController?.permittedArrowDirections = []
+//        }
         actionSheet.view.tintColor = tintColor
         actionSheet.addAction(UIAlertAction(title: "From Library".local(), style: .default, handler: { [weak self] _ in
             self?.showImagePicker(with: .photoLibrary, mediaTypes: mediaTypes, delegate: delegate, presentCompletion: presentCompletion)
@@ -86,7 +104,7 @@ public extension UIViewController {
     func showImagePicker(with type: UIImagePickerController.SourceType,
                          mediaTypes: [String],
                          delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate,
-                         presentCompletion: ((UIImagePickerController) -> Void)? = nil) {
+                         presentCompletion: ((UIImagePickerController?, PHAuthorizationStatus?) -> Void)? = nil) {
         let showPicker: () -> (Void) = { [weak self] in
             DispatchQueue.main.async {
                 guard let self = self else { return }
@@ -95,7 +113,7 @@ public extension UIViewController {
                 picker.mediaTypes = mediaTypes
                 picker.delegate = delegate
                 picker.navigationItem.rightBarButtonItem?.tintColor = .red
-                presentCompletion?(picker)
+                presentCompletion?(picker, nil)
                 self.present(picker, animated: true) {
                 }
             }
@@ -110,7 +128,7 @@ public extension UIViewController {
 
         case .authorized: showPicker()
 
-        default: ()
+        default: presentCompletion?(nil, status)
         }
     }
 }
