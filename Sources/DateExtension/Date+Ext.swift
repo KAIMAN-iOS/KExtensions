@@ -116,6 +116,15 @@ public extension DateFormatter {
     static let relativeDateFormatter: RelativeDateTimeFormatter = {
         let f = RelativeDateTimeFormatter()
         f.unitsStyle = .full
+        f.dateTimeStyle = .named
+        return f
+    } ()
+    
+    @available(iOS 13.0, *)
+    static let relativeNumericDateFormatter: RelativeDateTimeFormatter = {
+        let f = RelativeDateTimeFormatter()
+        f.unitsStyle = .full
+        f.dateTimeStyle = .numeric
         return f
     } ()
     
