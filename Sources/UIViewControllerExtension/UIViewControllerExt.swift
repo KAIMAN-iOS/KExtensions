@@ -72,30 +72,38 @@ public extension UIViewController {
                                   delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate,
                                   tintColor: UIColor?,
                                   presentCompletion: ((UIImagePickerController?, PHAuthorizationStatus?) -> Void)? = nil) {
-        guard UIImagePickerController.isSourceTypeAvailable(.camera) == true, UIImagePickerController.isSourceTypeAvailable(.photoLibrary) == true else {
+        let hasCameraCapability = UIImagePickerController.isSourceTypeAvailable(.camera)
+        let hasLibraryCapability = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
+        
+        // none allowed > settings
+        guard hasCameraCapability || hasLibraryCapability else {
+            showSettingsDialog(tintColor: tintColor)
+            presentCompletion?(nil, .denied)
+            return
+        }
+        
+        guard hasCameraCapability,
+              hasLibraryCapability else {
             showImagePicker(with: UIImagePickerController.isSourceTypeAvailable(.camera) ? .camera : .photoLibrary,
                             mediaTypes: mediaTypes,
+                            tintColor: tintColor,
                             delegate: delegate,
                             presentCompletion: presentCompletion)
             return
         }
         
         let actionSheet = UIAlertController(title: "Choose an image".local(), message: nil, preferredStyle: .safeActionSheet)
-//        if #available(iOS 15.0, *) {
-//            actionSheet.sheetPresentationController?.sourceView = self.view
-//            actionSheet.popoverPresentationController?.permittedArrowDirections = []
-//        }
+        
         actionSheet.view.tintColor = tintColor
         actionSheet.addAction(UIAlertAction(title: "From Library".local(), style: .default, handler: { [weak self] _ in
-            self?.showImagePicker(with: .photoLibrary, mediaTypes: mediaTypes, delegate: delegate, presentCompletion: presentCompletion)
+            self?.showImagePicker(with: .photoLibrary, mediaTypes: mediaTypes, tintColor: tintColor, delegate: delegate, presentCompletion: presentCompletion)
         }))
         
         actionSheet.addAction(UIAlertAction(title: "Take picture".local(), style: .default, handler: { [weak self] _ in
-            self?.showImagePicker(with: .camera, mediaTypes: mediaTypes, delegate: delegate)
+            self?.showImagePicker(with: .camera, mediaTypes: mediaTypes, tintColor: tintColor, delegate: delegate)
         }))
         
         actionSheet.addAction(UIAlertAction(title: "Cancel".local(), style: .cancel, handler: { _ in
-//            self?.dismiss(animated: true, completion: nil)
         }))
         
         present(actionSheet, animated: true, completion: nil)
@@ -103,6 +111,7 @@ public extension UIViewController {
     
     func showImagePicker(with type: UIImagePickerController.SourceType,
                          mediaTypes: [String],
+                         tintColor: UIColor?,
                          delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate,
                          presentCompletion: ((UIImagePickerController?, PHAuthorizationStatus?) -> Void)? = nil) {
         let showPicker: () -> (Void) = { [weak self] in
@@ -119,17 +128,60 @@ public extension UIViewController {
             }
         }
         
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization({status in
-                showPicker()
-            })
-
-        case .authorized: showPicker()
-
-        default: presentCompletion?(nil, status)
+        switch type {
+            case .camera:
+                let status = AVCaptureDevice.authorizationStatus(for: .video)
+                switch status {
+                    case .authorized: showPicker()
+                    case .notDetermined:
+                        AVCaptureDevice.requestAccess(for: .video) { granted in
+                            if granted {
+                                showPicker()
+                            } else {
+                                self.openAppSettings()
+                            }
+                        }
+                    default: openAppSettings()
+                }
+                
+            default:
+                let status = PHPhotoLibrary.authorizationStatus()
+                switch status {
+                    case .notDetermined:
+                        PHPhotoLibrary.requestAuthorization({ status in
+                            if status == .authorized {
+                                showPicker()
+                            } else {
+                                self.openAppSettings()
+                            }
+                        })
+                        
+                    case .authorized: showPicker()
+                        
+                    default:
+                        showSettingsDialog(tintColor: tintColor)
+                        presentCompletion?(nil, status)
+                }
         }
+    }
+    
+    private func showSettingsDialog(tintColor: UIColor?) {
+            let actionSheet = UIAlertController(title: "Authorization denied".local(), message: nil, preferredStyle: .safeActionSheet)
+            actionSheet.view.tintColor = tintColor
+            actionSheet.addAction(UIAlertAction(title: "Change your settings".local(), style: .cancel, handler: { _ in
+                self.openAppSettings()
+            }))
+            
+            present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func openAppSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+            UIApplication.shared.canOpenURL(url) else {
+                assertionFailure("Not able to open App privacy settings")
+                return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }
 
@@ -168,14 +220,14 @@ extension UIViewController {
         child.didMove(toParent: self)
         child.view.snp.makeConstraints(snapCompletion)
     }
-
+    
     public func remove() {
         // Just to be safe, we check that this view controller
         // is actually added to a parent before removing it.
         guard parent != nil else {
             return
         }
-
+        
         willMove(toParent: nil)
         view.removeFromSuperview()
         removeFromParent()
